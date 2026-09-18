@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/archivo/wght.css";
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+
+@theme {
+  --color-ink: #17110f;
+  --color-ink-soft: #3a2e2b;
+  --color-ink-mute: #6f605c;
+  --color-paper: #f5f2ef;
+  --color-paper-2: #eae4df;
+  --color-rose: #c42a52;
+  --color-rose-deep: #9d1d40;
+  --color-plum: #4e1226;
+  --color-plum-deep: #3a0c1c;
+  --color-blush: #e9d4da;
+
+  --font-display: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Containers cap at 1400px, so display type has to cap with them. Sizing off raw
+       vw keeps growing past that point and overflows the column it sits in. */
+    --shell: min(100vw, 1400px);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-rose);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-rose);
+    outline-offset: 3px;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  /* Width axis carries the hierarchy, so headlines get their own utility. */
+  .u-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 118%;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+    text-transform: uppercase;
+  }
+
+  .u-display-soft {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-stretch: 118%;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  .u-mono {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .u-arch {
+    border-radius: 50% 50% 0 0 / 34% 34% 0 0;
+  }
+
+  .u-edge {
+    border-color: color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+}
+
+/* The custom pointer only exists on precise pointers. Everything else keeps the system cursor. */
+@media (pointer: fine) {
+  body[data-pointer="custom"],
+  body[data-pointer="custom"] a,
+  body[data-pointer="custom"] button {
+    cursor: none;
+  }
+
+  body[data-pointer="custom"] input,
+  body[data-pointer="custom"] textarea {
+    cursor: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
