@@ -21,6 +21,9 @@
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @layer base {
@@ -91,8 +94,75 @@
     border-radius: 50% 50% 0 0 / 34% 34% 0 0;
   }
 
+  /* Kinetic name letters. Width and weight are set per letter from script on fine
+     pointers, so each one carries its own variation values. */
+  .u-kinetic {
+    display: inline-block;
+    font-stretch: var(--wdth, 112%);
+    font-weight: var(--wght, 800);
+  }
+
+  .u-stretch-in {
+    animation: stretch-in 1.4s var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 45ms + var(--d, 0ms));
+  }
+
+  /* The phone bezel. A frame around real reels, never a fake interface. */
+  .u-phone {
+    position: relative;
+    border-radius: 2.6em;
+    padding: 0.42em;
+    background: linear-gradient(145deg, #2b2321 0%, #0f0b0a 45%, #241c1a 100%);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.09),
+      0 1.6em 3.2em -1.2em rgb(23 17 15 / 0.55);
+    font-size: clamp(9px, 1.1vw, 13px);
+  }
+
+  .u-phone-screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2.2em;
+    aspect-ratio: 9 / 19.5;
+    background: #0f0b0a;
+    isolation: isolate;
+  }
+
+  .u-island {
+    position: absolute;
+    left: 50%;
+    top: 0.7em;
+    z-index: 3;
+    width: 30%;
+    height: 1.9em;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #050404;
+  }
+
+  .u-no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .u-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .u-edge {
     border-color: color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+}
+
+@keyframes stretch-in {
+  from {
+    font-stretch: 62%;
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    font-stretch: var(--wdth, 112%);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -53,6 +53,8 @@ export const capabilities = [
 
 export const caseStudy = {
   client: "UFS Lanka",
+  agency: "Zirateh",
+  industry: "Automotive",
   title: "The $0 Campaign",
   window: "November 2025 to August 2026",
   summary:
@@ -106,16 +108,23 @@ export const caseStudy = {
     { count: 14, label: "250K to 500K" },
     { count: 36, label: "100K to 250K" },
   ],
+  // `baked` lists what the screenshot already shows (its own view badge or play icon),
+  // so the phone does not draw a second one on top.
+  // Each reel takes an optional `video`. Drop the MP4 into public/media/reels/ and add
+  // the path here, for example video: "/media/reels/ufs-dream-car.mp4". Without one,
+  // the phone shows the poster and the viewer still opens it full screen.
   reels: [
-    { src: "/media/ufs-reel-1.webp", views: "1.8M" },
-    { src: "/media/ufs-reel-2.webp", views: "1.3M" },
-    { src: "/media/ufs-reel-3.webp", views: "2.4M" },
-    { src: "/media/ufs-reel-4.webp", views: "2.3M" },
-    { src: "/media/ufs-reel-5.webp", views: "2.3M" },
-    { src: "/media/ufs-reel-6.webp", views: "1.8M" },
-    { src: "/media/ufs-reel-7.webp", views: "1.9M" },
-    { src: "/media/ufs-reel-8.webp", views: "1.3M" },
-    { src: "/media/ufs-reel-9.webp", views: "1.2M" },
+    { id: "dream-car", poster: "/media/ufs-dream-car-1-8m.webp", video: null, views: "1.8M", title: "Dream car vs reality", baked: ["views"] },
+    { id: "to-sell", poster: "/media/ufs-to-sell-to-me-1-7m.webp", video: null, views: "1.7M", title: "To sell to me", baked: ["views"] },
+    { id: "reel-3", poster: "/media/ufs-reel-3.webp", video: null, views: "2.4M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-4", poster: "/media/ufs-reel-4.webp", video: null, views: "2.3M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-5", poster: "/media/ufs-reel-5.webp", video: null, views: "2.3M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-7", poster: "/media/ufs-reel-7.webp", video: null, views: "1.9M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-1", poster: "/media/ufs-reel-1.webp", video: null, views: "1.8M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-6", poster: "/media/ufs-reel-6.webp", video: null, views: "1.8M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-2", poster: "/media/ufs-reel-2.webp", video: null, views: "1.3M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-8", poster: "/media/ufs-reel-8.webp", video: null, views: "1.3M", title: "UFS Lanka reel", baked: ["play"] },
+    { id: "reel-9", poster: "/media/ufs-reel-9.webp", video: null, views: "1.2M", title: "UFS Lanka reel", baked: ["play"] },
   ],
   closing:
     "Reach earned, not bought, with a directly measurable business outcome. Conversions are limited by sales support capacity, not by demand.",

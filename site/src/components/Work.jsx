@@ -1,12 +1,15 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { ArrowDownRightIcon } from "@phosphor-icons/react";
-import { projects } from "../data/projects";
+import { projects as allProjects } from "../data/projects";
+
+// UFS has its own section above, so it stays out of the stack.
+const projects = allProjects.filter((p) => !p.hasCaseStudy);
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useDetachedProgress } from "../lib/useDetachedProgress";
 import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
-import { scrollToSection } from "../lib/smoothScroll";
+import { useReelViewer } from "../lib/reelViewer";
+import { PhoneFrame } from "./ui/PhoneFrame";
 import { LAYER } from "../lib/layers";
 
 function Panel({ project, index, total, progress, stackable }) {
@@ -24,6 +27,17 @@ function Panel({ project, index, total, progress, stackable }) {
   const stack = stackable && !reduce && !last;
   const stacked = stack ? { scale } : undefined;
   const flip = index % 2 === 1;
+  const { open } = useReelViewer();
+  const reels = project.media
+    .filter((m) => m.ratio === "9/14")
+    .map((m, i) => ({
+      id: `${project.id}-${i}`,
+      poster: m.src,
+      video: m.video ?? null,
+      views: m.views,
+      baked: m.baked,
+      title: m.alt,
+    }));
 
   return (
     <div className="relative min-h-[100dvh] md:sticky md:top-0" style={{ zIndex: LAYER.base + index }}>
@@ -82,43 +96,46 @@ function Panel({ project, index, total, progress, stackable }) {
               ))}
             </ul>
 
-            {project.hasCaseStudy ? (
-              <button
-                type="button"
-                onClick={() => scrollToSection("case-study")}
-                className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-rose underline decoration-rose/40 underline-offset-4 transition-colors hover:decoration-rose"
-              >
-                Read the full case study
-                <ArrowDownRightIcon size={16} weight="bold" />
-              </button>
-            ) : null}
           </div>
 
           <motion.div
-            className={`grid grid-cols-2 gap-3 md:col-span-5 ${
-              flip ? "md:order-1 md:col-start-1" : "md:col-start-8"
-            }`}
+            className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1" : "md:col-start-8"}`}
             style={stack ? { y: mediaY } : undefined}
           >
-            {project.media.map((media, i) => (
-              <div
-                key={media.src}
-                className={`overflow-hidden bg-paper-2 ${i === 2 ? "col-span-2" : ""}`}
-                data-cursor={media.ratio === "9/14" ? "play" : "view"}
-              >
-                <img
-                  src={media.src}
-                  alt={media.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className={`w-full object-cover transition-transform duration-700 hover:scale-[1.04] ${
-                    i === 2
-                      ? "aspect-[16/9] md:aspect-auto md:h-[18vh]"
-                      : "aspect-[9/14] md:aspect-auto md:h-[42vh]"
-                  }`}
-                />
+            {reels.length ? (
+              <div className="flex items-end justify-center gap-4 md:gap-6">
+                {reels.map((reel, i) => (
+                  <PhoneFrame
+                    key={reel.id}
+                    reel={reel}
+                    label={`${project.client} reel`}
+                    onOpen={() => open(reels, i)}
+                    className={`w-[42vw] max-w-[13.5rem] md:w-[min(13.5rem,22vh)] ${
+                      i === 1 ? "translate-y-[-8%] rotate-[3deg]" : "-rotate-[2deg]"
+                    }`}
+                  />
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
+                {project.media.map((media, i) => (
+                  <div
+                    key={media.src}
+                    className={`overflow-hidden bg-paper-2 ${i === 0 ? "col-span-2" : ""}`}
+                  >
+                    <img
+                      src={media.src}
+                      alt={media.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className={`w-full object-cover transition-transform duration-700 ease-[var(--ease-out)] hover:scale-[1.04] ${
+                        i === 0 ? "aspect-[4/3] md:aspect-auto md:h-[38vh]" : "aspect-square md:aspect-auto md:h-[24vh]"
+                      }`}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </motion.div>
         </div>
       </motion.article>
@@ -139,11 +156,11 @@ export function Work() {
     <section id="work" className="relative bg-paper">
       <div className="mx-auto max-w-[1400px] px-5 pt-24 md:px-10 md:pt-32">
         <h2 className="u-display text-[calc(var(--shell)*0.085)] leading-[0.92] md:text-[calc(var(--shell)*0.056)]">
-          <RevealLines lines={["Brands grown,", "numbers moved."]} />
+          <RevealLines lines={["More brands,", "more numbers."]} />
         </h2>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-[52ch] pb-16 text-base leading-relaxed text-ink-soft md:pb-24 md:text-lg">
-            Six accounts across two agencies, from vehicle dealerships to fine jewellery.
+            Five more accounts across two agencies, from electric cars to fine jewellery, glamping and chocolate.
           </p>
         </Reveal>
       </div>

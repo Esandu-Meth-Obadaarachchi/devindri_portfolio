@@ -6,8 +6,9 @@ import { scrollToSection } from "../lib/smoothScroll";
 import { Button } from "./ui/Button";
 
 const links = [
-  { id: "about", label: "About" },
+  { id: "ufs", label: "UFS" },
   { id: "work", label: "Work" },
+  { id: "about", label: "About" },
   { id: "services", label: "Services" },
 ];
 
@@ -30,7 +31,7 @@ export function Nav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 h-16 transition-colors duration-300 ${
-          solid ? "bg-paper/85 backdrop-blur-md" : "bg-transparent"
+          solid && !menuOpen ? "bg-paper/85 backdrop-blur-md" : "bg-transparent"
         }`}
         style={{ zIndex: LAYER.nav }}
       >
@@ -38,7 +39,7 @@ export function Nav() {
           <button
             type="button"
             onClick={() => go("top")}
-            className="u-display text-lg text-ink"
+            className={`u-display text-lg transition-colors duration-300 ${menuOpen ? "text-paper" : "text-ink"}`}
             aria-label="Back to top"
           >
             DDS<span className="text-rose">.</span>
@@ -63,7 +64,7 @@ export function Nav() {
 
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center text-ink md:hidden"
+            className={`flex h-11 w-11 items-center justify-center transition-colors duration-300 md:hidden ${menuOpen ? "text-paper" : "text-ink"}`}
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -82,23 +83,32 @@ export function Nav() {
       <AnimatePresence>
         {menuOpen ? (
           <motion.div
-            className="fixed inset-0 flex flex-col justify-center gap-2 bg-ink px-6 md:hidden"
+            className="fixed inset-0 flex flex-col justify-end bg-ink px-5 pb-[max(2rem,env(safe-area-inset-bottom))] md:hidden"
             style={{ zIndex: LAYER.nav - 1 }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            transition={{ duration: 0.5, ease: [0.77, 0, 0.175, 1] }}
           >
-            {[...links, { id: "contact", label: "Work with me" }].map((link) => (
-              <button
-                key={link.id}
-                type="button"
-                onClick={() => go(link.id)}
-                className="u-display py-2 text-left text-[calc(var(--shell)*0.13)] text-paper"
-              >
-                {link.label}
-              </button>
-            ))}
+            <nav aria-label="Sections" className="flex flex-col">
+              {[...links, { id: "contact", label: "Work with me" }].map((link, i) => (
+                <span key={link.id} className="block overflow-hidden">
+                  <motion.button
+                    type="button"
+                    onClick={() => go(link.id)}
+                    className={`u-display block py-1.5 text-left text-[15vw] leading-[0.95] ${
+                      link.id === "contact" ? "text-rose" : "text-paper"
+                    }`}
+                    initial={{ transform: "translateY(110%)" }}
+                    animate={{ transform: "translateY(0%)" }}
+                    exit={{ transform: "translateY(110%)" }}
+                    transition={{ duration: 0.55, delay: 0.12 + i * 0.05, ease: [0.23, 1, 0.32, 1] }}
+                  >
+                    {link.label}
+                  </motion.button>
+                </span>
+              ))}
+            </nav>
           </motion.div>
         ) : null}
       </AnimatePresence>

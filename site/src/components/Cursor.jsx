@@ -1,34 +1,57 @@
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
-import { PlayIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useMotionTemplate,
+  useReducedMotion,
+} from "motion/react";
+import { PlayIcon, ArrowUpRightIcon, ArrowsHorizontalIcon } from "@phosphor-icons/react";
 import { LAYER } from "../lib/layers";
 
-const RING = {
-  idle: { size: 34, label: null, icon: null },
-  action: { size: 62, label: null, icon: "arrow" },
-  view: { size: 96, label: "View", icon: null },
-  play: { size: 86, label: null, icon: "play" },
-  read: { size: 12, label: null, icon: null },
+// The blob is drawn once at full size and scaled, so the cursor never animates
+// width or height. Blend difference inverts whatever it passes over.
+const BLOB = 120;
+const SCALE = { idle: 12 / BLOB, action: 64 / BLOB, text: 1, hidden: 0.0001 };
+const LABEL = {
+  play: { text: "Play", Icon: PlayIcon },
+  drag: { text: "Drag", Icon: ArrowsHorizontalIcon },
+  view: { text: "View", Icon: ArrowUpRightIcon },
 };
 
-/** Requested custom pointer. It only mounts for fine pointers with motion enabled,
- *  and it leaves the caret alone inside form fields (see index.css). */
+function resolve(target) {
+  const el = target instanceof Element ? target : null;
+  const tagged = el?.closest("[data-cursor]");
+  if (tagged) return tagged.getAttribute("data-cursor") || "idle";
+  if (el?.closest("input, textarea, select")) return "hidden";
+  if (el?.closest("a, button, label")) return "action";
+  if (el?.closest("h1, h2")) return "text";
+  return "idle";
+}
+
+/** Fine pointers only. One inverted blob that swells over headlines and links, and a
+ *  labelled pill over the phones and the reel rail. Pointer moves only touch motion
+ *  values; React re-renders when the state actually changes. */
 export function Cursor() {
   const reduce = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
   const [state, setState] = useState("idle");
   const [visible, setVisible] = useState(false);
+  const last = useRef("idle");
 
-  const x = useMotionValue(-200);
-  const y = useMotionValue(-200);
-  const dotX = useSpring(x, { stiffness: 1500, damping: 70, mass: 0.2 });
-  const dotY = useSpring(y, { stiffness: 1500, damping: 70, mass: 0.2 });
-  const ringX = useSpring(x, { stiffness: 260, damping: 26, mass: 0.7 });
-  const ringY = useSpring(y, { stiffness: 260, damping: 26, mass: 0.7 });
+  const x = useMotionValue(-300);
+  const y = useMotionValue(-300);
+  const sx = useSpring(x, { stiffness: 700, damping: 48, mass: 0.35 });
+  const sy = useSpring(y, { stiffness: 700, damping: 48, mass: 0.35 });
+  const lx = useSpring(x, { stiffness: 380, damping: 34, mass: 0.5 });
+  const ly = useSpring(y, { stiffness: 380, damping: 34, mass: 0.5 });
+  const blobTransform = useMotionTemplate`translate3d(calc(${sx}px - 50%), calc(${sy}px - 50%), 0)`;
+  const labelTransform = useMotionTemplate`translate3d(calc(${lx}px - 50%), calc(${ly}px - 50%), 0)`;
 
   useEffect(() => {
     if (reduce) return undefined;
-    const fine = window.matchMedia("(pointer: fine)");
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const sync = () => setEnabled(fine.matches);
     sync();
     fine.addEventListener("change", sync);
@@ -46,63 +69,65 @@ export function Cursor() {
       x.set(event.clientX);
       y.set(event.clientY);
       setVisible(true);
-
-      const target = event.target instanceof Element ? event.target : null;
-      const hit = target?.closest("[data-cursor]");
-      if (hit) {
-        setState(hit.getAttribute("data-cursor") || "idle");
-        return;
+      const next = resolve(event.target);
+      if (next !== last.current) {
+        last.current = next;
+        setState(next);
       }
-      if (target?.closest("a, button, input, textarea, label")) {
-        setState("action");
-        return;
-      }
-      setState("idle");
     };
-
     const onLeave = () => setVisible(false);
+    const onDown = () => document.body.setAttribute("data-pressed", "");
+    const onUp = () => document.body.removeAttribute("data-pressed");
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    document.addEventListener("pointerleave", onLeave);
+    window.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onUp);
+    document.documentElement.addEventListener("pointerleave", onLeave);
 
     return () => {
       window.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
       document.body.removeAttribute("data-pointer");
     };
   }, [enabled, x, y]);
 
   if (!enabled) return null;
 
-  const ring = RING[state] ?? RING.idle;
+  const label = LABEL[state];
+  const scale = label ? SCALE.hidden : SCALE[state] ?? SCALE.idle;
 
   return (
     <div className="pointer-events-none fixed inset-0" style={{ zIndex: LAYER.cursor }} aria-hidden="true">
       <motion.div
-        className="absolute left-0 top-0 rounded-full bg-rose"
-        style={{ x: dotX, y: dotY, width: 7, height: 7, translateX: "-50%", translateY: "-50%" }}
-        animate={{ opacity: visible && state !== "view" && state !== "play" ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      <motion.div
-        className="absolute left-0 top-0 flex items-center justify-center rounded-full border border-rose/70 backdrop-blur-[1px]"
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
-        animate={{
-          width: ring.size,
-          height: ring.size,
-          opacity: visible ? 1 : 0,
-          backgroundColor:
-            ring.label || ring.icon === "play"
-              ? "rgba(196, 42, 82, 0.92)"
-              : "rgba(196, 42, 82, 0)",
-        }}
-        transition={{ type: "spring", stiffness: 320, damping: 28 }}
+        className="absolute left-0 top-0 mix-blend-difference"
+        style={{ transform: blobTransform, width: BLOB, height: BLOB }}
       >
-        {ring.label ? (
-          <span className="u-mono text-[10px] text-paper">{ring.label}</span>
-        ) : null}
-        {ring.icon === "play" ? <PlayIcon size={22} weight="fill" color="#F5F2EF" /> : null}
-        {ring.icon === "arrow" ? <ArrowUpRightIcon size={18} weight="bold" color="#C42A52" /> : null}
+        <motion.div
+          className="h-full w-full rounded-full bg-paper"
+          initial={false}
+          animate={{ transform: `scale(${visible ? scale : SCALE.hidden})` }}
+          transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
+        />
+      </motion.div>
+
+      <motion.div className="absolute left-0 top-0" style={{ transform: labelTransform }}>
+        <AnimatePresence>
+          {label && visible ? (
+            <motion.div
+              key={state}
+              className="flex h-[88px] w-[88px] flex-col items-center justify-center gap-1 rounded-full bg-rose text-paper shadow-[0_12px_32px_-8px_rgba(78,18,38,0.55)]"
+              initial={{ opacity: 0, transform: "scale(0.6)" }}
+              animate={{ opacity: 1, transform: "scale(1)" }}
+              exit={{ opacity: 0, transform: "scale(0.6)" }}
+              transition={{ type: "spring", duration: 0.35, bounce: 0.2 }}
+            >
+              <label.Icon size={18} weight={state === "play" ? "fill" : "bold"} />
+              <span className="u-mono text-[10px]">{label.text}</span>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </motion.div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { ArrowUpIcon, EnvelopeSimpleIcon, PhoneIcon, LinkedinLogoIcon } from "@phosphor-icons/react";
 import { contact } from "../data/site";
 import { scrollToTop } from "../lib/smoothScroll";
+import { KineticWord } from "./ui/KineticWord";
 
 const linkClass =
   "flex items-center gap-2 text-sm text-paper/75 transition-colors hover:text-paper";
@@ -50,6 +51,14 @@ export function Footer() {
               <ArrowUpIcon size={18} weight="bold" />
             </button>
           </div>
+        </div>
+
+        {/* The hero signature again: hover the name and it stretches toward you. */}
+        <div className="mt-16 overflow-hidden border-t border-paper/15 pt-6" aria-hidden="true">
+          <KineticWord
+            text="Devindri"
+            className="u-display text-center text-[16vw] leading-[0.8] text-paper/90 md:text-[calc(var(--shell)*0.15)]"
+          />
         </div>
       </div>
     </footer>
