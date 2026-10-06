@@ -49,3 +49,12 @@ export function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
+
+/** Freezes the page behind a modal. Lenis owns wheel scroll, so it has to stop too. */
+export function lockScroll(locked) {
+  if (lenisInstance) {
+    if (locked) lenisInstance.stop();
+    else lenisInstance.start();
+  }
+  document.documentElement.style.overflow = locked ? "hidden" : "";
+}

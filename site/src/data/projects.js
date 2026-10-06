@@ -22,8 +22,8 @@ export const projects = [
       { value: "127", label: "vehicles sold" },
     ],
     media: [
-      { src: "/media/ufs-dream-car-1-8m.webp", alt: "UFS Lanka reel, Dream Car vs Reality", ratio: "9/14" },
-      { src: "/media/ufs-to-sell-to-me-1-7m.webp", alt: "UFS Lanka reel about vehicle pricing", ratio: "9/14" },
+      { src: "/media/ufs-dream-car-1-8m.webp", views: "1.8M", baked: ["views"], alt: "UFS Lanka reel, Dream Car vs Reality", ratio: "9/14", video: null },
+      { src: "/media/ufs-to-sell-to-me-1-7m.webp", views: "1.7M", baked: ["views"], alt: "UFS Lanka reel about vehicle pricing", ratio: "9/14", video: null },
       { src: "/media/ufs-scam-or-smart.webp", alt: "UFS Lanka educational post on direct vehicle imports", ratio: "1/1" },
     ],
     hasCaseStudy: true,
@@ -47,8 +47,8 @@ export const projects = [
       { value: "1 month", label: "campaign window" },
     ],
     media: [
-      { src: "/media/tata-ev-sinhala-288k.webp", alt: "Tata reel introducing the new EV in Sinhala", ratio: "9/14" },
-      { src: "/media/tata-ev-charge-80k.webp", alt: "Tata reel showing an EV charging at 7am", ratio: "9/14" },
+      { src: "/media/tata-ev-sinhala-288k.webp", views: "288K", baked: ["views"], alt: "Tata reel introducing the new EV in Sinhala", ratio: "9/14", video: null },
+      { src: "/media/tata-ev-charge-80k.webp", views: "80K", baked: ["views"], alt: "Tata reel showing an EV charging at 7am", ratio: "9/14", video: null },
       { src: "/media/tata-i-told-you.webp", alt: "Tata lifestyle content at the showroom", ratio: "1/1" },
     ],
   },
@@ -72,8 +72,8 @@ export const projects = [
       { value: "Custom", label: "design enquiries driven" },
     ],
     media: [
-      { src: "/media/ceylon-engagement-ring-15-7k.webp", alt: "Ceylon Artisans engagement ring reel", ratio: "9/14" },
-      { src: "/media/ceylon-price-comparison-12k.webp", alt: "Ceylon Artisans reel on jewellery price differences", ratio: "9/14" },
+      { src: "/media/ceylon-engagement-ring-15-7k.webp", views: "15.7K", baked: ["views"], alt: "Ceylon Artisans engagement ring reel", ratio: "9/14", video: null },
+      { src: "/media/ceylon-price-comparison-12k.webp", views: "12K", baked: ["views"], alt: "Ceylon Artisans reel on jewellery price differences", ratio: "9/14", video: null },
       { src: "/media/ceylon-valentines-queen.webp", alt: "Ceylon Artisans Valentine campaign post", ratio: "1/1" },
     ],
   },
@@ -97,8 +97,8 @@ export const projects = [
       { value: "Monthly", label: "reporting cadence" },
     ],
     media: [
-      { src: "/media/infinity-bomburu-ella-73k.webp", alt: "Infinity Vacations reel at Bomburu Ella waterfall", ratio: "9/14" },
-      { src: "/media/infinity-jaffna-18k.webp", alt: "Infinity Vacations reel, five must visits in Jaffna", ratio: "9/14" },
+      { src: "/media/infinity-bomburu-ella-73k.webp", views: "73K", baked: ["views"], alt: "Infinity Vacations reel at Bomburu Ella waterfall", ratio: "9/14", video: null },
+      { src: "/media/infinity-jaffna-18k.webp", views: "18.2K", baked: ["views"], alt: "Infinity Vacations reel, five must visits in Jaffna", ratio: "9/14", video: null },
       { src: "/media/infinity-hikkaduwa.webp", alt: "Infinity Vacations post about Hikkaduwa", ratio: "1/1" },
     ],
   },

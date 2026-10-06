@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { LAYER } from "../lib/layers";
-
-const EASE = [0.16, 1, 0.3, 1];
+import { KineticWord } from "./ui/KineticWord";
 
 /** Covers the font swap and sets the tempo before the hero plays. */
 export function Preloader({ onDone }) {
@@ -20,7 +19,7 @@ export function Preloader({ onDone }) {
     let frame = 0;
     const start = performance.now();
     const run = (now) => {
-      const t = Math.min(1, (now - start) / 1100);
+      const t = Math.min(1, (now - start) / 1500);
       setCount(Math.round(100 * (1 - Math.pow(1 - t, 3))));
       if (t < 1) {
         frame = requestAnimationFrame(run);
@@ -46,13 +45,15 @@ export function Preloader({ onDone }) {
         <motion.div
           className="fixed inset-0 flex items-end justify-between bg-ink px-6 pb-8 md:px-10"
           style={{ zIndex: LAYER.preloader }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.9, ease: EASE }}
+          exit={{ transform: "translateY(-100%)" }}
+          transition={{ duration: 0.85, ease: [0.77, 0, 0.175, 1] }}
         >
-          <span className="u-display text-[calc(var(--shell)*0.13)] leading-[0.8] text-paper md:text-[calc(var(--shell)*0.07)]">
-            Devindri
-          </span>
-          <span className="u-mono text-paper/60">{count}</span>
+          <KineticWord
+            text="Devindri"
+            interactive={false}
+            className="u-display text-[17vw] leading-[0.8] text-paper md:text-[calc(var(--shell)*0.09)]"
+          />
+          <span className="u-mono tabular-nums text-paper/60">{count}</span>
         </motion.div>
       ) : null}
     </AnimatePresence>

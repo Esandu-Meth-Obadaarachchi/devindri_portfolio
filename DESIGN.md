@@ -54,6 +54,19 @@ study and contact, treated as a composition device, not a theme flip.
 - One exception, used as a motif: **the arch** on portraits (`border-radius: 50% 50% 0 0 /
   35% 35% 0 0`), carried over from her existing brand deck.
 
+## Signature (v2)
+
+Two things the page is remembered by:
+
+1. **Type that breathes.** The name is split around the arch portrait, one line behind it
+   and one in front. On a mouse, each letter stretches toward the pointer on Archivo's width
+   axis. The same treatment closes the page in the footer.
+2. **Reels inside phones.** Proof is shown the way it was watched: in an iPhone frame. Every
+   phone opens a stories style viewer (tap to skip, hold to pause, swipe down to close).
+
+UFS is shown once, as its own section, with **UFS** as the display word and "The $0
+Campaign" as a small label.
+
 ## Sections and layout families
 
 1. **Preloader** - counter plus curtain wipe, covers font load.

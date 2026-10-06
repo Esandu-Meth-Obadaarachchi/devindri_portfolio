@@ -57,21 +57,38 @@ Convert from PNG or JPG with `cwebp -q 82 in.png -o out.webp`. Do not put images
 `src/data`, that folder is for content only. Original PNGs live in `../source-images` and
 `../extracted_assets` outside the app, so they never reach the bundle.
 
-## Two things worth knowing
+## Adding the reel videos
 
-1. **Work panels are a sticky stack.** Each panel must fit inside one viewport at desktop,
+Every phone on the page plays a real MP4 once you give it one. Until then it shows the
+screenshot and still opens in the full screen viewer.
+
+1. Download the reel (Meta Business Suite, TikTok Studio or your own export).
+2. Compress it so phones load it fast. Aim for under 3 MB:
+   `ffmpeg -i in.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -movflags +faststart -an out.mp4`
+   Drop `-an` if you want sound in the viewer.
+3. Put it in `public/media/reels/` and set `video: "/media/reels/out.mp4"` on that reel in
+   `src/data/site.js` (UFS) or on the media item in `src/data/projects.js`.
+
+Phones play muted and only while on screen. The viewer has a sound toggle.
+
+## Things worth knowing
+
+1. **UFS has its own section** (`Ufs.jsx`) and is filtered out of the Work stack, so it
+   never shows twice. `hasCaseStudy: true` in `projects.js` is what does the filtering.
+2. **Work panels are a sticky stack.** Each panel must fit inside one viewport at desktop,
    so if you add copy to a panel, check it at 1440x800 before shipping. Below `md` the
    stack turns off and panels simply flow.
 3. **Display type sizes off `--shell`, not `vw`.** Containers cap at 1400px; raw `vw`
    sizing keeps growing past that and the headline overflows the column, where the reveal
    mask clips it. `--shell` is `min(100vw, 1400px)`, so type stops growing with the layout.
-2. **`useDetachedProgress`.** Motion will hand a scroll driven style off to a native
+4. **`useDetachedProgress`.** Motion will hand a scroll driven style off to a native
    scroll timeline bound to the element being styled. Any scroll value passed down to a
    child element freezes at a constant. Relaying it through a plain motion value keeps the
    mapping correct. Hero and Work both depend on this.
 
 ## Accessibility and motion
 
-The whole page honours `prefers-reduced-motion`: the preloader, the hero collapse, the
-sticky stack, the marquee and the custom pointer all drop to static. The custom pointer
+The whole page honours `prefers-reduced-motion`: the preloader, the hero split, the
+stretching letters, the sticky stack, the marquee, video autoplay and the custom pointer
+all drop to static. The custom pointer
 only mounts for fine pointers and never hides the caret inside form fields.

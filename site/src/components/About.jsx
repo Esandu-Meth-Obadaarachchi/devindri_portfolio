@@ -3,18 +3,18 @@ import { Counter } from "./ui/Counter";
 
 const traits = ["Strategic", "Creative", "Analytical", "Performance driven"];
 
+// UFS figures live in their own section, so this row covers the whole body of work.
 const proof = [
-  { value: 37.1, decimals: 1, suffix: "M+", label: "organic views for one client in nine months" },
-  { value: 105.4, decimals: 1, suffix: "K+", label: "followers gained across platforms" },
   { value: 6, decimals: 0, suffix: "", label: "brands grown across two agencies" },
   { value: 5, decimals: 0, suffix: "", label: "industries, from cars to fine jewellery" },
+  { value: 2, decimals: 0, suffix: "", label: "agencies, Zirateh and Growth Inc." },
 ];
 
 export function About() {
   return (
     <section id="about" className="relative bg-paper py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <h2 className="u-display text-[calc(var(--shell)*0.09)] leading-[0.9] md:text-[calc(var(--shell)*0.056)]">
+        <h2 className="u-display text-[11vw] leading-[0.9] md:text-[calc(var(--shell)*0.07)]">
           <RevealLines lines={["Strategy first,", "camera second."]} />
         </h2>
 
@@ -61,13 +61,13 @@ export function About() {
           </Reveal>
         </div>
 
-        <div className="mt-20 grid grid-cols-1 gap-x-10 gap-y-10 border-t border-ink/12 pt-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-20 grid grid-cols-3 gap-x-4 border-t border-ink/12 pt-12 md:gap-x-10">
           {proof.map((item, i) => (
             <Reveal key={item.label} delay={i * 0.08}>
-              <p className="u-display text-[calc(var(--shell)*0.13)] leading-none text-rose sm:text-[calc(var(--shell)*0.07)] lg:text-[calc(var(--shell)*0.034)]">
+              <p className="u-display text-[17vw] leading-none text-rose sm:text-[calc(var(--shell)*0.1)] lg:text-[calc(var(--shell)*0.08)]">
                 <Counter value={item.value} decimals={item.decimals} suffix={item.suffix} />
               </p>
-              <p className="mt-3 max-w-[22ch] text-sm leading-snug text-ink-mute">{item.label}</p>
+              <p className="mt-3 max-w-[22ch] text-xs leading-snug text-ink-mute sm:text-sm">{item.label}</p>
             </Reveal>
           ))}
         </div>

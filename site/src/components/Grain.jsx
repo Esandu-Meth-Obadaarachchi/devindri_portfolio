@@ -1,11 +1,12 @@
 import { LAYER } from "../lib/layers";
 
-/** Fixed, pointer-events-none, never on a scrolling container. */
+/** Fixed, pointer-events-none, never on a scrolling container. Phones skip it: a
+ *  full screen blend layer costs more frames than the texture is worth there. */
 export function Grain() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 opacity-[0.16] mix-blend-multiply"
+      className="pointer-events-none fixed inset-0 hidden md:block opacity-[0.16] mix-blend-multiply"
       style={{
         zIndex: LAYER.grain,
         backgroundImage:

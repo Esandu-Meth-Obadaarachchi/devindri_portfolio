@@ -10,7 +10,8 @@ import { Ticker } from "./components/Ticker";
 import { About } from "./components/About";
 import { Capabilities } from "./components/Capabilities";
 import { Work } from "./components/Work";
-import { CaseStudy } from "./components/CaseStudy";
+import { Ufs } from "./components/Ufs";
+import { ReelViewerProvider } from "./components/ReelViewer";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 
@@ -20,21 +21,27 @@ export default function App() {
   useSmoothScroll(!reduce);
 
   return (
-    <>
+    <ReelViewerProvider>
       <Preloader onDone={() => setReady(true)} />
       <Cursor />
       <Grain />
       <Nav />
-      <main className={ready || reduce ? "" : "opacity-0"}>
-        <Hero />
-        <Ticker />
-        <About />
-        <Capabilities />
-        <Work />
-        <CaseStudy />
-        <Contact />
-      </main>
-      <Footer />
-    </>
+      {/* The page mounts as the curtain lifts, so the hero plays its entrance in view
+          instead of behind the preloader. The portrait is preloaded in index.html. */}
+      {ready || reduce ? (
+        <>
+          <main>
+            <Hero />
+            <Ticker />
+            <Ufs />
+            <Work />
+            <About />
+            <Capabilities />
+            <Contact />
+          </main>
+          <Footer />
+        </>
+      ) : null}
+    </ReelViewerProvider>
   );
 }
