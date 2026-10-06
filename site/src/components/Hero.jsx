@@ -45,7 +45,7 @@ export function Hero() {
             style={reduce ? undefined : { opacity: fade }}
           >
             <span>Social media strategist</span>
-            <span>Content creator</span>
+            <span className="hidden min-[380px]:inline">Content creator</span>
           </motion.p>
 
           <h1 className="relative mt-3 flex min-h-0 flex-1 flex-col justify-between md:mt-4">

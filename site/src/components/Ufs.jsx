@@ -11,6 +11,8 @@ import { useDetachedProgress } from "../lib/useDetachedProgress";
 import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { ReelRail } from "./ui/ReelRail";
+import { TrophyIcon } from "@phosphor-icons/react";
+import { useReelViewer } from "../lib/reelViewer";
 
 const EASE = [0.23, 1, 0.32, 1];
 
@@ -109,66 +111,130 @@ function PlatformSplit() {
   );
 }
 
+/** The award, with the night it was won. Photos open in the same viewer as the reels. */
+function Award() {
+  const { open } = useReelViewer();
+  const { award } = caseStudy;
+  const items = award.photos.map((photo, i) => ({
+    id: `award-${i}`,
+    poster: photo.src,
+    title: `${award.level}, ${award.show}`,
+  }));
+  // Offsets give the strip a staggered rhythm on wide screens only.
+  const offsets = ["md:mt-0", "md:mt-16", "md:-mt-6"];
+
+  return (
+    <div className="mt-20 grid gap-10 md:mt-28 md:grid-cols-12 md:items-center md:gap-10">
+      <Reveal className="md:col-span-4">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#f1eeec] via-[#b9b3b0] to-[#e6e2df] text-plum shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+            <TrophyIcon size={22} weight="fill" />
+          </span>
+          <span className="u-mono text-paper/70">{award.show}</span>
+        </div>
+        <h3 className="u-display mt-6 text-[15vw] leading-[0.86] sm:text-7xl md:text-[calc(var(--shell)*0.062)]">
+          {award.level}
+          <span className="block text-blush">award</span>
+          <span className="block text-blush">{award.year}</span>
+        </h3>
+        <p className="mt-6 max-w-[34ch] text-base leading-relaxed text-paper/75">{award.note}</p>
+      </Reveal>
+
+      <Reveal delay={0.1} className="-mx-5 md:col-span-8 md:mx-0">
+        <ul className="u-no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 [scroll-padding-inline:1.25rem] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0">
+          {award.photos.map((photo, i) => (
+            <li key={photo.src} className={`w-[62vw] shrink-0 snap-start sm:w-[40vw] md:w-auto ${offsets[i]}`}>
+              <button
+                type="button"
+                onClick={() => open(items, i)}
+                data-cursor="view"
+                aria-label={`Open photo: ${photo.alt}`}
+                className="group block w-full overflow-hidden bg-plum-deep transition-transform duration-200 ease-[var(--ease-out)] active:scale-[0.98]"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[9/14] w-full object-cover object-[50%_62%] transition-transform duration-700 ease-[var(--ease-out)] group-hover:scale-[1.04]"
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    </div>
+  );
+}
+
 export function Ufs() {
   const head = useRef(null);
-  const { scrollYProgress } = useScroll({ target: head, offset: ["start end", "start 0.25"] });
+  const { scrollYProgress } = useScroll({ target: head, offset: ["start end", "start 0.35"] });
   const progress = useDetachedProgress(scrollYProgress);
 
   return (
     <section id="ufs" className="relative overflow-hidden bg-plum text-paper">
-      <div ref={head} className="mx-auto max-w-[1400px] px-5 pt-24 md:px-10 md:pt-32">
-        <Reveal className="flex flex-wrap items-center gap-x-4 gap-y-3">
+      <div ref={head} className="mx-auto max-w-[1400px] px-5 pt-20 md:px-10 md:pt-28">
+        <Reveal className="flex flex-wrap items-center gap-x-3 gap-y-3">
           <span className="rounded-full bg-paper px-3.5 py-1.5 text-xs font-bold tracking-tight text-plum">
             {caseStudy.title}
           </span>
-          <span className="u-mono text-paper/60">{caseStudy.window}</span>
+          <span className="flex items-center gap-1.5 rounded-full border border-paper/30 px-3.5 py-1.5 text-xs font-semibold tracking-tight">
+            <TrophyIcon size={14} weight="fill" className="text-[#d9d4d1]" />
+            {caseStudy.award.level}, {caseStudy.award.show}
+          </span>
+          <span className="u-mono w-full text-paper/60 sm:w-auto sm:pl-2">{caseStudy.window}</span>
         </Reveal>
 
-        <h2
-          aria-label={`${caseStudy.client}, ${caseStudy.title}`}
-          className="u-display mt-4 flex justify-between text-[33vw] leading-[0.78] [font-stretch:125%] [font-weight:900] md:mt-2 md:text-[calc(var(--shell)*0.36)]"
-        >
-          <Letter char="U" progress={progress} from={34} />
-          <Letter char="F" progress={progress} from={64} />
-          <Letter char="S" progress={progress} from={94} />
-        </h2>
+        <div className="mt-8 grid gap-8 md:mt-10 lg:grid-cols-12 lg:items-end lg:gap-10">
+          <div className="lg:col-span-7">
+            <h2
+              aria-label={`${caseStudy.client}, ${caseStudy.title}`}
+              className="u-display flex gap-[0.04em] text-[30vw] leading-[0.78] [font-stretch:125%] [font-weight:900] sm:text-[22vw] lg:text-[calc(var(--shell)*0.15)]"
+            >
+              <Letter char="U" progress={progress} from={30} />
+              <Letter char="F" progress={progress} from={55} />
+              <Letter char="S" progress={progress} from={80} />
+            </h2>
+            <p className="u-mono mt-4 text-paper/70">
+              Lanka, {caseStudy.industry.toLowerCase()}, via {caseStudy.agency}
+            </p>
+          </div>
 
-        <div className="mt-4 flex items-center justify-between border-t border-paper/25 pt-4 md:mt-6">
-          <span className="u-mono text-paper/70">Lanka, {caseStudy.industry.toLowerCase()}</span>
-          <span className="u-mono text-paper/70">via {caseStudy.agency}</span>
-        </div>
-
-        <div className="mt-14 grid gap-12 md:mt-20 md:grid-cols-12 md:gap-10">
-          <Reveal className="md:col-span-5">
-            <p className="text-lg leading-relaxed text-paper/85 md:text-2xl md:leading-snug">
+          <Reveal className="lg:col-span-5 lg:pb-3">
+            <p className="max-w-[46ch] text-base leading-relaxed text-paper/85 md:text-xl md:leading-snug">
               {caseStudy.summary}
             </p>
           </Reveal>
-
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:col-span-6 md:col-start-7">
-            {caseStudy.stats.map((stat, i) => (
-              <Reveal key={stat.label} delay={i * 0.08}>
-                <p className="u-display whitespace-nowrap text-[10.5vw] leading-none sm:text-6xl md:text-[calc(var(--shell)*0.05)]">
-                  <Counter
-                    value={stat.value}
-                    decimals={stat.decimals}
-                    prefix={stat.prefix ?? ""}
-                    suffix={stat.suffix}
-                  />
-                </p>
-                <p className="mt-3 text-sm text-paper/60">{stat.label}</p>
-              </Reveal>
-            ))}
-          </div>
         </div>
+
+        <div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-8 border-t border-paper/20 pt-10 md:mt-16 md:grid-cols-4 md:gap-x-10">
+          {caseStudy.stats.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 0.08}>
+              <p className="u-display whitespace-nowrap text-[9.5vw] leading-none sm:text-5xl md:text-[calc(var(--shell)*0.042)]">
+                <Counter
+                  value={stat.value}
+                  decimals={stat.decimals}
+                  prefix={stat.prefix ?? ""}
+                  suffix={stat.suffix}
+                />
+              </p>
+              <p className="mt-3 text-sm text-paper/60">{stat.label}</p>
+            </Reveal>
+          ))}
+        </div>
+
+        <Award />
       </div>
 
-      <div className="mt-24 md:mt-32">
+      <div className="mt-20 md:mt-28">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
           <h3 className="u-display text-[10vw] leading-[0.9] md:text-[calc(var(--shell)*0.045)]">
             <RevealLines lines={["Watch the reels", "that did it."]} />
           </h3>
-          <Reveal delay={0.1} className="flex flex-wrap gap-x-7 gap-y-2">
+          <Reveal delay={0.1} className="flex flex-wrap gap-x-6 gap-y-2">
             {caseStudy.viewRanges.map((range) => (
               <p key={range.label} className="u-mono text-paper/60">
                 <span className="mr-2 text-base font-bold text-paper">{range.count}</span>
@@ -182,42 +248,8 @@ export function Ufs() {
         </Reveal>
       </div>
 
-      <div className="mx-auto max-w-[1400px] px-5 pb-24 md:px-10 md:pb-32">
-        <div className="mt-24 grid gap-12 md:mt-32 md:grid-cols-12 md:gap-10">
-          <Reveal className="md:col-span-5">
-            <h3 className="u-display text-[8vw] leading-none md:text-[calc(var(--shell)*0.026)]">
-              The challenge
-            </h3>
-            <ul className="mt-6 space-y-3">
-              {caseStudy.challenges.map((item) => (
-                <li key={item} className="border-l-2 border-blush pl-4 text-base text-paper/85">
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 max-w-[38ch] text-base italic leading-relaxed text-paper/70">
-              Everybody was fighting to be seen. Nobody had heard of UFS.
-            </p>
-          </Reveal>
-
-          <div className="md:col-span-6 md:col-start-7">
-            <h3 className="u-display text-[8vw] leading-none md:text-[calc(var(--shell)*0.026)]">
-              The game plan
-            </h3>
-            <div className="mt-6 space-y-8">
-              {caseStudy.plan.map((step, i) => (
-                <Reveal key={step.title} delay={i * 0.08}>
-                  <h4 className="text-lg font-bold tracking-tight">{step.title}</h4>
-                  <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-paper/75">
-                    {step.body}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-24 grid gap-16 md:grid-cols-12 md:gap-10">
+      <div className="mx-auto max-w-[1400px] px-5 pb-20 md:px-10 md:pb-28">
+        <div className="mt-20 grid gap-16 md:mt-24 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-7">
             <h3 className="u-display text-[8vw] leading-none md:text-[calc(var(--shell)*0.026)]">
               One showroom became four
@@ -232,17 +264,6 @@ export function Ufs() {
             <PlatformSplit />
           </div>
         </div>
-
-        <Reveal>
-          <p className="u-display-soft mt-24 max-w-[22ch] text-[9vw] leading-[1.02] md:text-[calc(var(--shell)*0.036)]">
-            Reach earned, not bought, with a measurable business outcome.
-          </p>
-          <p className="mt-6 max-w-[50ch] text-base leading-relaxed text-paper/70">
-            Conversions are limited by sales support capacity, not by demand. The campaign
-            brings in more buyer interest than the team can process, which is the reason
-            for the expansion now underway.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

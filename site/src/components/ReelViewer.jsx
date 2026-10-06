@@ -217,7 +217,7 @@ function Viewer({ items, start, onClose }) {
                   ) : null}
                   <img
                     src={item.poster}
-                    alt={`${item.title}, ${item.views} views`}
+                    alt={item.views ? `${item.title}, ${item.views} views` : item.title}
                     onLoad={(event) => {
                       const el = event.currentTarget;
                       if (el.naturalWidth > el.naturalHeight) setWideId(itemKey);
@@ -268,9 +268,11 @@ function Viewer({ items, start, onClose }) {
                 </span>
                 <span className="text-sm font-semibold leading-tight">
                   {item.title}
-                  <span className="flex items-center gap-1 text-xs font-medium text-paper/75">
-                    <EyeIcon size={12} weight="bold" /> {item.views} views
-                  </span>
+                  {item.views ? (
+                    <span className="flex items-center gap-1 text-xs font-medium text-paper/75">
+                      <EyeIcon size={12} weight="bold" /> {item.views} views
+                    </span>
+                  ) : null}
                 </span>
               </div>
               <div className="flex items-center gap-1">
