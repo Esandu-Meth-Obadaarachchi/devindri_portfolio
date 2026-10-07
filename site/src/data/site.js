@@ -94,7 +94,8 @@ export const caseStudy = {
     { month: "Aug", units: 17 },
   ],
   viewRanges: [
-    { count: 9, label: "1M+" },
+    // The rail below shows 11 reels at 1.2M or more, so 10+ is the honest floor.
+    { count: "10+", label: "1M+" },
     { count: 8, label: "500K to 1M" },
     { count: 14, label: "250K to 500K" },
     { count: 36, label: "100K to 250K" },

@@ -232,7 +232,7 @@ export function Ufs() {
       <div className="mt-20 md:mt-28">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
           <h3 className="u-display text-[10vw] leading-[0.9] md:text-[calc(var(--shell)*0.045)]">
-            <RevealLines lines={["Watch the reels", "that did it."]} />
+            <RevealLines lines={["10+ reels", "past a million."]} />
           </h3>
           <Reveal delay={0.1} className="flex flex-wrap gap-x-6 gap-y-2">
             {caseStudy.viewRanges.map((range) => (
