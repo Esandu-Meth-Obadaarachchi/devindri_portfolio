@@ -15,3 +15,6 @@ dist/
 extracted_assets/
 source-images/
 
+
+# Local Netlify folder
+.netlify
