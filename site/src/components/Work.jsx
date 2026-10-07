@@ -40,9 +40,9 @@ function Panel({ project, index, total, progress, stackable }) {
     }));
 
   return (
-    <div className="relative min-h-[100dvh] md:sticky md:top-0" style={{ zIndex: LAYER.base + index }}>
+    <div className="relative min-h-[100dvh] lg:sticky lg:top-0" style={{ zIndex: LAYER.base + index }}>
       <motion.article
-        className="relative flex min-h-[100dvh] items-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] md:h-[100dvh] md:overflow-hidden"
+        className="relative flex min-h-[100dvh] items-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] lg:h-[100dvh] lg:overflow-hidden"
         style={stacked}
       >
         {stack ? (
@@ -52,17 +52,17 @@ function Panel({ project, index, total, progress, stackable }) {
             aria-hidden="true"
           />
         ) : null}
-        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-10 px-5 py-24 md:grid-cols-12 md:gap-10 md:px-10 md:py-20">
-          <div className={`md:col-span-6 ${flip ? "md:order-2 md:col-start-7" : ""}`}>
+        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-10 px-5 py-24 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-20">
+          <div className={`lg:col-span-6 ${flip ? "lg:order-2 lg:col-start-7" : ""}`}>
             <p className="u-mono text-ink-mute">
               {project.industry} <span className="text-rose">/</span> via {project.agency}
             </p>
-            <h3 className="u-display mt-3 text-[calc(var(--shell)*0.105)] leading-[0.9] text-ink md:text-[calc(var(--shell)*0.042)]">
+            <h3 className="u-display mt-3 text-[calc(var(--shell)*0.105)] leading-[0.9] text-ink lg:text-[calc(var(--shell)*0.042)]">
               {project.client}
             </h3>
 
             <div className="mt-6 flex flex-wrap items-end gap-x-8 gap-y-4">
-              <p className="u-display text-[calc(var(--shell)*0.12)] leading-none text-rose md:text-[calc(var(--shell)*0.036)]">
+              <p className="u-display text-[calc(var(--shell)*0.12)] leading-none text-rose lg:text-[calc(var(--shell)*0.036)]">
                 <Counter
                   value={project.headline.value}
                   decimals={project.headline.value % 1 === 0 ? 0 : 1}
@@ -99,18 +99,18 @@ function Panel({ project, index, total, progress, stackable }) {
           </div>
 
           <motion.div
-            className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1" : "md:col-start-8"}`}
+            className={`lg:col-span-5 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"}`}
             style={stack ? { y: mediaY } : undefined}
           >
             {reels.length ? (
-              <div className="flex items-end justify-center gap-4 md:gap-6">
+              <div className="flex items-end justify-center gap-4 lg:gap-6">
                 {reels.map((reel, i) => (
                   <PhoneFrame
                     key={reel.id}
                     reel={reel}
                     label={`${project.client} reel`}
                     onOpen={() => open(reels, i)}
-                    className={`w-[42vw] max-w-[13.5rem] md:w-[min(13.5rem,22vh)] ${
+                    className={`w-[42vw] max-w-[13.5rem] lg:w-[min(13.5rem,22vh)] ${
                       i === 1 ? "translate-y-[-8%] rotate-[3deg]" : "-rotate-[2deg]"
                     }`}
                   />
@@ -129,7 +129,7 @@ function Panel({ project, index, total, progress, stackable }) {
                       loading="lazy"
                       decoding="async"
                       className={`w-full object-cover transition-transform duration-700 ease-[var(--ease-out)] hover:scale-[1.04] ${
-                        i === 0 ? "aspect-[4/3] md:aspect-auto md:h-[38vh]" : "aspect-square md:aspect-auto md:h-[24vh]"
+                        i === 0 ? "aspect-[4/3] lg:aspect-auto lg:h-[38vh]" : "aspect-square lg:aspect-auto lg:h-[24vh]"
                       }`}
                     />
                   </div>
@@ -145,7 +145,7 @@ function Panel({ project, index, total, progress, stackable }) {
 
 export function Work() {
   const ref = useRef(null);
-  const stackable = useMediaQuery("(min-width: 768px)");
+  const stackable = useMediaQuery("(min-width: 1024px)");
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
@@ -154,12 +154,12 @@ export function Work() {
 
   return (
     <section id="work" className="relative bg-paper">
-      <div className="mx-auto max-w-[1400px] px-5 pt-24 md:px-10 md:pt-32">
-        <h2 className="u-display text-[calc(var(--shell)*0.085)] leading-[0.92] md:text-[calc(var(--shell)*0.056)]">
+      <div className="mx-auto max-w-[1400px] px-5 pt-24 lg:px-10 lg:pt-32">
+        <h2 className="u-display text-[calc(var(--shell)*0.085)] leading-[0.92] lg:text-[calc(var(--shell)*0.056)]">
           <RevealLines lines={["More brands,", "more numbers."]} />
         </h2>
         <Reveal delay={0.1}>
-          <p className="mt-6 max-w-[52ch] pb-16 text-base leading-relaxed text-ink-soft md:pb-24 md:text-lg">
+          <p className="mt-6 max-w-[52ch] pb-16 text-base leading-relaxed text-ink-soft lg:pb-24 lg:text-lg">
             Five more accounts across two agencies, from electric cars to fine jewellery, glamping and chocolate.
           </p>
         </Reveal>

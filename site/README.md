@@ -73,10 +73,10 @@ Phones play muted and only while on screen. The viewer has a sound toggle.
 
 ## Things worth knowing
 
-1. **UFS has its own section** (`Ufs.jsx`) and is filtered out of the Work stack, so it
-   never shows twice. `hasCaseStudy: true` in `projects.js` is what does the filtering.
-2. **Work panels are a sticky stack.** Each panel must fit inside one viewport at desktop,
-   so if you add copy to a panel, check it at 1440x800 before shipping. Below `md` the
+1. **UFS has its own section** (`Ufs.jsx`), with the SLIM DIGIS award and its photos in
+   `caseStudy.award`. It is filtered out of the Work stack, so it never shows twice. `hasCaseStudy: true` in `projects.js` is what does the filtering.
+2. **Work panels are a sticky stack from 1024px up.** Each panel must fit inside one viewport,
+   so if you add copy to a panel, check it at 1440x800 before shipping. Below `lg` the
    stack turns off and panels simply flow.
 3. **Display type sizes off `--shell`, not `vw`.** Containers cap at 1400px; raw `vw`
    sizing keeps growing past that and the headline overflows the column, where the reveal

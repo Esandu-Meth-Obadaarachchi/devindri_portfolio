@@ -59,26 +59,17 @@ export const caseStudy = {
   window: "November 2025 to August 2026",
   summary:
     "UFS went from zero market presence to a four showroom expansion in Sri Lanka's most crowded dealership category, with no paid budget behind any of it.",
-  challenges: [
-    "Zero market presence",
-    "An extremely crowded category",
-    "No paid budget",
-    "A credibility gap",
-  ],
-  plan: [
-    {
-      title: "100% organic, by design",
-      body: "Short form algorithms reward good content, not follower count, so a page with zero followers could compete from post one.",
-    },
-    {
-      title: "Zig where the category zagged",
-      body: "Positioned the brand around an unconventional vehicle buying model that no other dealer was talking about.",
-    },
-    {
-      title: "Entertain first, sell later",
-      body: "Brand messaging delivered through skits and challenges. The content earned attention on its own merit, with the message riding inside.",
-    },
-  ],
+  award: {
+    show: "SLIM DIGIS 2.6",
+    level: "Silver",
+    year: 2026,
+    note: "Recognised by the Sri Lanka Institute of Marketing for the UFS Lanka campaign.",
+    photos: [
+      { src: "/media/slim-digis-devindri.webp", alt: "Devindri holding her SLIM DIGIS awards", width: 1100, height: 1956 },
+      { src: "/media/slim-digis-team-trio.webp", alt: "Devindri with two teammates and their SLIM DIGIS trophies", width: 1100, height: 1956 },
+      { src: "/media/slim-digis-team.webp", alt: "The agency team at SLIM DIGIS 2.6 with their trophies", width: 720, height: 1280 },
+    ],
+  },
   stats: [
     { value: 37.1, suffix: "M+", decimals: 1, label: "organic views" },
     { value: 105.4, suffix: "K", decimals: 1, label: "followers gained" },
@@ -103,7 +94,8 @@ export const caseStudy = {
     { month: "Aug", units: 17 },
   ],
   viewRanges: [
-    { count: 9, label: "1M+" },
+    // The rail below shows 11 reels at 1.2M or more, so 10+ is the honest floor.
+    { count: "10+", label: "1M+" },
     { count: 8, label: "500K to 1M" },
     { count: 14, label: "250K to 500K" },
     { count: 36, label: "100K to 250K" },
@@ -126,6 +118,4 @@ export const caseStudy = {
     { id: "reel-8", poster: "/media/ufs-reel-8.webp", video: null, views: "1.3M", title: "UFS Lanka reel", baked: ["play"] },
     { id: "reel-9", poster: "/media/ufs-reel-9.webp", video: null, views: "1.2M", title: "UFS Lanka reel", baked: ["play"] },
   ],
-  closing:
-    "Reach earned, not bought, with a directly measurable business outcome. Conversions are limited by sales support capacity, not by demand.",
 };
