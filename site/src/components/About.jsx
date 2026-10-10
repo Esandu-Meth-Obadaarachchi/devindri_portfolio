@@ -83,12 +83,14 @@ export function About() {
               <Reveal
                 key={item.label}
                 delay={i * 0.07}
-                className="group flex flex-col justify-end bg-paper px-5 py-8 transition-colors duration-300 hover:bg-paper-2 md:px-7 md:py-10"
+                className={`group flex flex-col justify-end bg-paper px-5 py-8 transition-colors duration-300 hover:bg-paper-2 md:px-7 md:py-10 ${
+                  item.lead || i === proof.length - 1 ? "col-span-2 md:col-span-1" : ""
+                }`}
               >
                 <dd
                   className={`u-display leading-none ${
                     item.lead
-                      ? "text-rose text-[calc(var(--shell)*0.13)] md:text-[calc(var(--shell)*0.075)]"
+                      ? "text-rose text-[calc(var(--shell)*0.115)] md:text-[calc(var(--shell)*0.075)]"
                       : "text-ink text-[calc(var(--shell)*0.1)] md:text-[calc(var(--shell)*0.05)]"
                   }`}
                 >

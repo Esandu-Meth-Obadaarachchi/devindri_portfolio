@@ -22,19 +22,19 @@ function Entry({ item, delay }) {
   const lead = item.roles[0];
 
   return (
-    <Reveal delay={delay} className="relative pl-8 md:pl-0">
+    <Reveal delay={delay} className="relative pl-8 lg:pl-0">
       {/* The marker sits on the rail itself, so the eye can follow the years down. */}
       <span
-        className={`absolute left-0 top-[0.6rem] h-2.5 w-2.5 -translate-x-[calc(50%+0.5px)] rounded-full md:hidden ${
+        className={`absolute left-0 top-[0.6rem] h-2.5 w-2.5 -translate-x-[calc(50%+0.5px)] rounded-full lg:hidden ${
           item.current ? "bg-rose" : "bg-ink/25"
         }`}
         aria-hidden="true"
       />
 
-      <div className="grid gap-y-4 md:grid-cols-12 md:gap-10">
-        <div className="md:col-span-3 md:pl-8">
+      <div className="grid gap-y-4 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-3 lg:pl-8">
           <span
-            className={`absolute left-0 top-[0.6rem] hidden h-2.5 w-2.5 -translate-x-[calc(50%+0.5px)] rounded-full md:block ${
+            className={`absolute left-0 top-[0.6rem] hidden h-2.5 w-2.5 -translate-x-[calc(50%+0.5px)] rounded-full lg:block ${
               item.current ? "bg-rose" : "bg-ink/25"
             }`}
             aria-hidden="true"
@@ -49,8 +49,8 @@ function Entry({ item, delay }) {
           ) : null}
         </div>
 
-        <div className="md:col-span-6">
-          <h3 className="u-display text-[calc(var(--shell)*0.062)] leading-[0.94] text-ink md:text-[calc(var(--shell)*0.03)]">
+        <div className="lg:col-span-6">
+          <h3 className="u-display text-[calc(var(--shell)*0.062)] leading-[0.94] text-ink md:text-[calc(var(--shell)*0.045)] lg:text-[calc(var(--shell)*0.03)]">
             {lead.title}
           </h3>
           <p className="mt-2 text-base font-semibold tracking-tight text-rose md:text-lg">
@@ -74,11 +74,11 @@ function Entry({ item, delay }) {
           ) : null}
 
           <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-ink-soft">{item.note}</p>
-          <Brands brands={item.brands} className="mt-6 md:hidden" />
+          <Brands brands={item.brands} className="mt-6 lg:hidden" />
         </div>
 
         {item.brands?.length ? (
-          <div className="hidden md:col-span-3 md:block">
+          <div className="hidden lg:col-span-3 lg:block">
             <p className="u-mono text-ink-mute">Accounts</p>
             <Brands brands={item.brands} className="mt-4" />
           </div>

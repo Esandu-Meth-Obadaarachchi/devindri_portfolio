@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   EnvelopeSimpleIcon,
   PhoneIcon,
@@ -6,6 +6,7 @@ import {
   ArrowUpRightIcon,
 } from "@phosphor-icons/react";
 import { contact } from "../data/site";
+import { useScope } from "../lib/scope";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { Button } from "./ui/Button";
 
@@ -32,6 +33,14 @@ export function Contact() {
   const [values, setValues] = useState(empty);
   const [errors, setErrors] = useState({});
   const [sent, setSent] = useState(false);
+  const { draft } = useScope();
+
+  // A scope picked in the services section arrives here as a written brief.
+  useEffect(() => {
+    if (!draft) return;
+    setValues((prev) => ({ ...prev, message: draft }));
+    setErrors((prev) => ({ ...prev, message: undefined }));
+  }, [draft]);
 
   const update = (field) => (event) => {
     setValues((prev) => ({ ...prev, [field]: event.target.value }));

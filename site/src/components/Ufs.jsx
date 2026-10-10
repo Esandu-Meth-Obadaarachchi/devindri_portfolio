@@ -124,8 +124,8 @@ function Award() {
   const offsets = ["md:mt-0", "md:mt-16", "md:-mt-6"];
 
   return (
-    <div className="mt-20 grid gap-10 md:mt-28 md:grid-cols-12 md:items-center md:gap-10">
-      <Reveal className="md:col-span-4">
+    <div className="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
+      <Reveal className="lg:col-span-4">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#f1eeec] via-[#b9b3b0] to-[#e6e2df] text-plum shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
             <TrophyIcon size={22} weight="fill" />
@@ -140,7 +140,7 @@ function Award() {
         <p className="mt-6 max-w-[34ch] text-base leading-relaxed text-paper/75">{award.note}</p>
       </Reveal>
 
-      <Reveal delay={0.1} className="-mx-5 md:col-span-8 md:mx-0">
+      <Reveal delay={0.1} className="-mx-5 md:mx-0 lg:col-span-8">
         <ul className="u-no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 [scroll-padding-inline:1.25rem] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0">
           {award.photos.map((photo, i) => (
             <li key={photo.src} className={`w-[62vw] shrink-0 snap-start sm:w-[40vw] md:w-auto ${offsets[i]}`}>
@@ -218,13 +218,15 @@ export function Ufs() {
             <Reveal
               key={stat.label}
               delay={i * 0.08}
-              className="flex flex-col justify-end bg-plum px-5 py-8 md:px-7 md:py-10"
+              className={`flex flex-col justify-end bg-plum px-5 py-8 md:px-7 md:py-10 ${
+                i === 0 || i === caseStudy.stats.length - 1 ? "col-span-2 md:col-span-1" : ""
+              }`}
             >
               <p
                 className={`u-display whitespace-nowrap leading-none ${
                   i === 0
-                    ? "text-blush text-[calc(var(--shell)*0.125)] md:text-[calc(var(--shell)*0.082)]"
-                    : "text-paper text-[calc(var(--shell)*0.09)] md:text-[calc(var(--shell)*0.045)]"
+                    ? "text-blush text-[calc(var(--shell)*0.115)] md:text-[calc(var(--shell)*0.082)]"
+                    : "text-paper text-[calc(var(--shell)*0.072)] md:text-[calc(var(--shell)*0.045)]"
                 }`}
               >
                 <Counter
