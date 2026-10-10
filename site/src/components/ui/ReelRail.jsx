@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react";
 import { useReelViewer } from "../../lib/reelViewer";
-import { PhoneFrame } from "./PhoneFrame";
+import { ReelCard } from "./ReelCard";
 
-/** A row of phones. Touch gets native momentum and snap. A mouse can drag the row,
- *  and a drag never counts as a tap on the phone underneath it. */
+/** A filmstrip of reels. Touch gets native momentum and snap. A mouse can drag the
+ *  row, and a drag never counts as a tap on the card underneath it. */
 export function ReelRail({ reels, label }) {
   const rail = useRef(null);
   const drag = useRef(null);
@@ -65,11 +65,12 @@ export function ReelRail({ reels, label }) {
       >
         {reels.map((reel, i) => (
           <div key={reel.id} role="listitem" className="snap-start">
-            <PhoneFrame
+            <ReelCard
               reel={reel}
               label={reel.title}
               onOpen={() => open(reels, i)}
-              className="w-[44vw] max-w-[15.5rem] sm:w-[30vw] md:w-[14rem] lg:w-[15.5rem]"
+              fill
+              className="h-[46vw] max-h-[26rem] min-h-[15rem] sm:h-[32vw] md:h-[24rem] lg:h-[26rem]"
             />
           </div>
         ))}

@@ -3,11 +3,20 @@ import { Counter } from "./ui/Counter";
 
 const traits = ["Strategic", "Creative", "Analytical", "Performance driven"];
 
-// UFS figures live in their own section, so this row covers the whole body of work.
+// Views are the sum of every account on this page, so the floor is honest.
+// UFS carries 37.1M of it, the rest comes from Tata, Ceylon Artisans and Infinity.
 const proof = [
-  { value: 6, decimals: 0, suffix: "", label: "brands grown across two agencies" },
-  { value: 5, decimals: 0, suffix: "", label: "industries, from cars to fine jewellery" },
-  { value: 2, decimals: 0, suffix: "", label: "agencies, Zirateh and Growth Inc." },
+  {
+    value: 37.5,
+    decimals: 1,
+    suffix: "M+",
+    label: "views generated",
+    note: "Across every account, earned not bought",
+    lead: true,
+  },
+  { value: 6, decimals: 0, suffix: "", label: "brands grown", note: "Cars, jewellery, travel, food" },
+  { value: 5, decimals: 0, suffix: "", label: "industries", note: "Each with its own rulebook" },
+  { value: 2, decimals: 0, suffix: "", label: "agencies", note: "Zirateh and Growth Inc." },
 ];
 
 export function About() {
@@ -18,9 +27,27 @@ export function About() {
           <RevealLines lines={["Strategy first,", "camera second."]} />
         </h2>
 
-        <div className="mt-14 grid gap-12 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-6">
-            <Reveal delay={0.1} className="max-w-[52ch] space-y-5 text-base leading-relaxed text-ink-soft md:text-lg">
+        <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-12 md:items-center md:gap-12">
+          <Reveal className="md:col-span-5">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-blush u-arch md:mx-0 md:max-w-none">
+              <img
+                src="/media/devindri-portrait-1.webp"
+                alt="Devindri De Silva"
+                width={1066}
+                height={850}
+                style={{ objectPosition: "50% 18%" }}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
+
+          <div className="md:col-span-6 md:col-start-7">
+            <Reveal
+              delay={0.1}
+              className="max-w-[52ch] space-y-5 text-base leading-relaxed text-ink-soft md:text-lg"
+            >
               <p>
                 I am a social media strategist specialising in high impact digital
                 strategies. My core strengths are content development, strategic planning
@@ -44,32 +71,40 @@ export function About() {
               ))}
             </Reveal>
           </div>
-
-          <Reveal delay={0.15} className="md:col-span-5 md:col-start-8">
-            <div className="relative mx-auto aspect-[3/4] w-full max-w-[440px] overflow-hidden bg-blush u-arch">
-              <img
-                src="/media/devindri-portrait-1.webp"
-                alt="Devindri De Silva"
-                width={1066}
-                height={850}
-                style={{ objectPosition: "50% 22%" }}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </Reveal>
         </div>
 
-        <div className="mt-20 grid grid-cols-3 gap-x-4 border-t border-ink/12 pt-12 md:gap-x-10">
-          {proof.map((item, i) => (
-            <Reveal key={item.label} delay={i * 0.08}>
-              <p className="u-display text-[17vw] leading-none text-rose sm:text-[calc(var(--shell)*0.1)] lg:text-[calc(var(--shell)*0.08)]">
-                <Counter value={item.value} decimals={item.decimals} suffix={item.suffix} />
-              </p>
-              <p className="mt-3 max-w-[22ch] text-xs leading-snug text-ink-mute sm:text-sm">{item.label}</p>
-            </Reveal>
-          ))}
+        {/* The headline figure gets its own column width, the rest line up beside it. */}
+        <div className="mt-20 md:mt-28">
+          <Reveal>
+            <p className="u-mono text-ink-mute">The body of work so far</p>
+          </Reveal>
+          <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden bg-ink/12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+            {proof.map((item, i) => (
+              <Reveal
+                key={item.label}
+                delay={i * 0.07}
+                className={`group flex flex-col justify-end bg-paper px-5 py-8 transition-colors duration-300 hover:bg-paper-2 md:px-7 md:py-10 ${
+                  item.lead || i === proof.length - 1 ? "col-span-2 md:col-span-1" : ""
+                }`}
+              >
+                <dd
+                  className={`u-display leading-none ${
+                    item.lead
+                      ? "text-rose text-[calc(var(--shell)*0.115)] md:text-[calc(var(--shell)*0.075)]"
+                      : "text-ink text-[calc(var(--shell)*0.1)] md:text-[calc(var(--shell)*0.05)]"
+                  }`}
+                >
+                  <Counter value={item.value} decimals={item.decimals} suffix={item.suffix} />
+                </dd>
+                <dt className="mt-4 text-sm font-semibold tracking-tight text-ink md:text-base">
+                  {item.label}
+                </dt>
+                <p className="mt-1.5 max-w-[24ch] text-xs leading-snug text-ink-mute">
+                  {item.note}
+                </p>
+              </Reveal>
+            ))}
+          </dl>
         </div>
       </div>
     </section>

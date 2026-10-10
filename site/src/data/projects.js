@@ -116,7 +116,7 @@ export const projects = [
       "Website blogs",
       "Social media posts",
     ],
-    headline: { value: 4, suffix: "", label: "content pillars built for the property" },
+    headline: { kind: "scope", text: "Content calendar, property shoots and the blogs that carry the bookings" },
     support: [
       { value: "On site", label: "property shoot direction" },
       { value: "Blogs", label: "long form written for the site" },
@@ -141,7 +141,7 @@ export const projects = [
       "Contests and interactive events",
       "Influencer partnerships",
     ],
-    headline: { value: 3, suffix: "", label: "product launches run end to end" },
+    headline: { kind: "scope", text: "Three product launches, run from calendar to contest to creator" },
     support: [
       { value: "Contests", label: "interactive campaign mechanics" },
       { value: "Creators", label: "influencer partnerships managed" },

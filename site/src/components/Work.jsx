@@ -1,16 +1,71 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "motion/react";
 import { projects as allProjects } from "../data/projects";
-
-// UFS has its own section above, so it stays out of the stack.
-const projects = allProjects.filter((p) => !p.hasCaseStudy);
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useDetachedProgress } from "../lib/useDetachedProgress";
 import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { useReelViewer } from "../lib/reelViewer";
-import { PhoneFrame } from "./ui/PhoneFrame";
+import { ReelCard } from "./ui/ReelCard";
 import { LAYER } from "../lib/layers";
+
+// UFS has its own section above, so it stays out of the stack.
+const projects = allProjects.filter((p) => !p.hasCaseStudy);
+
+function Media({ project, reels, onOpen, parallax }) {
+  if (reels.length) {
+    return (
+      <motion.div
+        className="flex items-end justify-center gap-4 lg:gap-6"
+        style={parallax}
+      >
+        {reels.map((reel, i) => (
+          <ReelCard
+            key={reel.id}
+            reel={reel}
+            tone="dark"
+            label={`${project.client} reel`}
+            onOpen={() => onOpen(i)}
+            className={`aspect-[9/14] w-[42vw] max-w-[15.5rem] lg:w-[min(16rem,26vh)] ${
+              i === 1 ? "lg:translate-y-[-7%]" : ""
+            }`}
+          />
+        ))}
+      </motion.div>
+    );
+  }
+
+  // Accounts shot as stills get a row instead, lead image widest. One row keeps the
+  // panel inside a single viewport, which the sticky stack depends on.
+  return (
+    <motion.div
+      className="grid grid-cols-2 gap-3 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-4"
+      style={parallax}
+    >
+      {project.media.map((media, i) => (
+        <div
+          key={media.src}
+          className={`overflow-hidden bg-paper-2 ${i === 0 ? "col-span-2 lg:col-span-1" : ""}`}
+        >
+          <img
+            src={media.src}
+            alt={media.alt}
+            loading="lazy"
+            decoding="async"
+            className={`w-full object-cover transition-transform duration-700 ease-[var(--ease-out)] hover:scale-[1.04] lg:aspect-auto lg:h-[32vh] ${
+              i === 0 ? "aspect-[16/10]" : "aspect-square"
+            }`}
+          />
+        </div>
+      ))}
+    </motion.div>
+  );
+}
 
 function Panel({ project, index, total, progress, stackable }) {
   const reduce = useReducedMotion();
@@ -18,9 +73,13 @@ function Panel({ project, index, total, progress, stackable }) {
   const start = index / (total - 1);
   const end = (index + 1) / (total - 1);
 
-  const scale = useTransform(progress, [start, end], [1, 0.93], { clamp: true });
+  const scale = useTransform(progress, [start, end], [1, 0.93], {
+    clamp: true,
+  });
   const dim = useTransform(progress, [start, end], [0, 0.42], { clamp: true });
-  const mediaY = useTransform(progress, [start, end], [0, -60], { clamp: true });
+  const mediaY = useTransform(progress, [start, end], [0, -60], {
+    clamp: true,
+  });
 
   // The receding panel keeps an opaque background. A scrim on top carries the depth,
   // so stacked panels never bleed through each other.
@@ -38,11 +97,17 @@ function Panel({ project, index, total, progress, stackable }) {
       baked: m.baked,
       title: m.alt,
     }));
+  const scopeLed = project.headline.kind === "scope";
 
   return (
-    <div className="relative min-h-[100dvh] lg:sticky lg:top-0" style={{ zIndex: LAYER.base + index }}>
+    <div
+      className={`relative min-h-[100dvh] ${stackable ? "lg:sticky lg:top-0" : ""}`}
+      style={{ zIndex: LAYER.base + index }}
+    >
       <motion.article
-        className="relative flex min-h-[100dvh] items-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] lg:h-[100dvh] lg:overflow-hidden"
+        className={`relative flex min-h-[100dvh] flex-col justify-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] ${
+          stackable ? "lg:h-[100dvh] lg:overflow-hidden" : ""
+        }`}
         style={stacked}
       >
         {stack ? (
@@ -52,91 +117,103 @@ function Panel({ project, index, total, progress, stackable }) {
             aria-hidden="true"
           />
         ) : null}
-        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-10 px-5 py-24 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-20">
-          <div className={`lg:col-span-6 ${flip ? "lg:order-2 lg:col-start-7" : ""}`}>
+
+        <div
+          className={`mx-auto w-full max-w-[1400px] px-5 py-24 lg:px-10 lg:pt-16 ${
+            stackable ? "lg:pb-32" : "lg:pb-16"
+          }`}
+        >
+          {/* The name gets the full width, so a long one never runs under the media. */}
+          <header>
             <p className="u-mono text-ink-mute">
-              {project.industry} <span className="text-rose">/</span> via {project.agency}
+              {project.industry} <span className="text-rose">/</span> via{" "}
+              {project.agency}
             </p>
-            <h3 className="u-display mt-3 text-[calc(var(--shell)*0.105)] leading-[0.9] text-ink lg:text-[calc(var(--shell)*0.042)]">
+            <h3 className="u-display mt-4 text-[calc(var(--shell)*0.088)] leading-[0.88] text-ink lg:text-[calc(var(--shell)*0.07)]">
               {project.client}
             </h3>
+          </header>
 
-            <div className="mt-6 flex flex-wrap items-end gap-x-8 gap-y-4">
-              <p className="u-display text-[calc(var(--shell)*0.12)] leading-none text-rose lg:text-[calc(var(--shell)*0.036)]">
-                <Counter
-                  value={project.headline.value}
-                  decimals={project.headline.value % 1 === 0 ? 0 : 1}
-                  suffix={project.headline.suffix}
-                />
+          <div className="mt-10 grid grid-cols-1 items-center gap-10 lg:mt-8 lg:grid-cols-12 lg:gap-10">
+            <div
+              className={`lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : ""}`}
+            >
+              {scopeLed ? (
+                <p className="max-w-[22ch] text-xl font-semibold leading-tight tracking-tight text-ink lg:text-3xl lg:leading-[1.15]">
+                  {project.headline.text}
+                </p>
+              ) : (
+                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+                  <p className="u-display text-[calc(var(--shell)*0.13)] leading-none text-rose lg:text-[calc(var(--shell)*0.058)]">
+                    <Counter
+                      value={project.headline.value}
+                      decimals={project.headline.value % 1 === 0 ? 0 : 1}
+                      suffix={project.headline.suffix}
+                    />
+                  </p>
+                  <p className="max-w-[16ch] text-base leading-snug text-ink-mute lg:text-lg">
+                    {project.headline.label}
+                  </p>
+                </div>
+              )}
+
+              <p className="mt-6 max-w-[44ch] text-base leading-relaxed text-ink-soft lg:text-lg">
+                {project.approach}
               </p>
-              <p className="max-w-[18ch] pb-1 text-sm leading-snug text-ink-mute">
-                {project.headline.label}
-              </p>
+
+              {project.support?.length ? (
+                <dl className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-6 border-t border-ink/12 pt-5">
+                  {project.support.map((item) => (
+                    <div key={item.label}>
+                      <dd className="u-display text-xl leading-none text-ink lg:text-2xl">
+                        {item.value}
+                      </dd>
+                      <dt className="mt-2 max-w-[18ch] text-xs leading-snug text-ink-mute lg:text-sm">
+                        {item.label}
+                      </dt>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
             </div>
 
-            <dl className="mt-7 grid gap-5 sm:grid-cols-2">
-              <div>
-                <dt className="u-mono text-ink-mute">Goal</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{project.goal}</dd>
-              </div>
-              <div>
-                <dt className="u-mono text-ink-mute">Approach</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{project.approach}</dd>
-              </div>
-            </dl>
+            <div
+              className={`lg:col-span-6 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-7"}`}
+            >
+              <Media
+                project={project}
+                reels={reels}
+                onOpen={(i) => open(reels, i)}
+                parallax={stack ? { y: mediaY } : undefined}
+              />
+            </div>
+          </div>
+        </div>
 
-            <ul className="mt-7 flex flex-wrap gap-2">
+        {/* A footer band carries the brief, so the panel reads full rather than floating. */}
+        <div
+          className={`border-t border-ink/12 ${
+            stackable ? "lg:absolute lg:inset-x-0 lg:bottom-0" : ""
+          }`}
+        >
+          <div className="mx-auto grid max-w-[1400px] gap-6 px-5 py-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
+            <div className="lg:col-span-4">
+              <p className="u-mono text-ink-mute">The brief</p>
+              <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-ink-soft lg:text-base">
+                {project.goal}
+              </p>
+            </div>
+            <ul className="flex flex-wrap gap-2 lg:col-span-7 lg:col-start-6 lg:justify-end">
               {project.deliverables.map((item) => (
                 <li
                   key={item}
-                  className="rounded-full border border-ink/15 px-3.5 py-1.5 text-xs font-medium text-ink-soft"
+                  className="rounded-full border border-ink/15 px-3.5 py-1.5 text-xs font-medium text-ink-soft lg:text-sm"
                 >
                   {item}
                 </li>
               ))}
             </ul>
-
           </div>
-
-          <motion.div
-            className={`lg:col-span-5 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"}`}
-            style={stack ? { y: mediaY } : undefined}
-          >
-            {reels.length ? (
-              <div className="flex items-end justify-center gap-4 lg:gap-6">
-                {reels.map((reel, i) => (
-                  <PhoneFrame
-                    key={reel.id}
-                    reel={reel}
-                    label={`${project.client} reel`}
-                    onOpen={() => open(reels, i)}
-                    className={`w-[42vw] max-w-[13.5rem] lg:w-[min(13.5rem,22vh)] ${
-                      i === 1 ? "translate-y-[-8%] rotate-[3deg]" : "-rotate-[2deg]"
-                    }`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3">
-                {project.media.map((media, i) => (
-                  <div
-                    key={media.src}
-                    className={`overflow-hidden bg-paper-2 ${i === 0 ? "col-span-2" : ""}`}
-                  >
-                    <img
-                      src={media.src}
-                      alt={media.alt}
-                      loading="lazy"
-                      decoding="async"
-                      className={`w-full object-cover transition-transform duration-700 ease-[var(--ease-out)] hover:scale-[1.04] ${
-                        i === 0 ? "aspect-[4/3] lg:aspect-auto lg:h-[38vh]" : "aspect-square lg:aspect-auto lg:h-[24vh]"
-                      }`}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </motion.div>
         </div>
       </motion.article>
     </div>
@@ -145,7 +222,9 @@ function Panel({ project, index, total, progress, stackable }) {
 
 export function Work() {
   const ref = useRef(null);
-  const stackable = useMediaQuery("(min-width: 1024px)");
+  // The stack pins a panel to the viewport, so it only runs where a panel actually
+  // fits one. Short windows get the same content flowing normally instead of clipped.
+  const stackable = useMediaQuery("(min-width: 1024px) and (min-height: 820px)");
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
@@ -160,7 +239,8 @@ export function Work() {
         </h2>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-[52ch] pb-16 text-base leading-relaxed text-ink-soft lg:pb-24 lg:text-lg">
-            Five more accounts across two agencies, from electric cars to fine jewellery, glamping and chocolate.
+            Five more accounts across two agencies, from electric cars to fine
+            jewellery, glamping and chocolate.
           </p>
         </Reveal>
       </div>
