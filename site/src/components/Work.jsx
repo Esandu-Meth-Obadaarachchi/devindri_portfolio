@@ -12,28 +12,46 @@ import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { useReelViewer } from "../lib/reelViewer";
 import { ReelPhone } from "./ui/ReelPhone";
+import { ReelLink } from "./ui/ReelLink";
 import { LAYER } from "../lib/layers";
 
 // UFS has its own section above, so it stays out of the stack.
 const projects = allProjects.filter((p) => !p.hasCaseStudy);
 
+// Two reels sit side by side and stagger. Three or four share the column as a grid, and
+// on a phone they become a row you swipe through, so none of them shrinks to a sliver.
+const COLS = { 3: "lg:grid-cols-3", 4: "lg:grid-cols-4" };
+
 function Media({ project, reels, onOpen, parallax }) {
   if (reels.length) {
+    const crowd = reels.length > 2;
+
     return (
       <motion.div
-        className="flex items-end justify-center gap-4 lg:gap-6"
+        className={
+          crowd
+            ? `u-no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scroll-padding-inline:1.25rem] lg:mx-0 lg:grid lg:overflow-visible lg:px-0 lg:pb-0 ${COLS[reels.length] ?? "lg:grid-cols-4"}`
+            : "flex items-end justify-center gap-4 lg:gap-6"
+        }
         style={parallax}
       >
         {reels.map((reel, i) => (
-          <ReelPhone
+          <div
             key={reel.id}
-            reel={reel}
-            label={`${project.client} reel`}
-            onOpen={() => onOpen(i)}
-            className={`w-[38vw] max-w-[12.5rem] lg:w-[min(13rem,22vh)] ${
-              i === 1 ? "lg:translate-y-[-7%]" : ""
-            }`}
-          />
+            className={
+              crowd
+                ? "w-[40vw] max-w-[11.5rem] shrink-0 snap-start lg:mx-auto lg:w-[min(100%,22vh)] lg:max-w-none"
+                : `w-[38vw] max-w-[12.5rem] lg:w-[min(13rem,22vh)] ${i === 1 ? "lg:translate-y-[-7%]" : ""}`
+            }
+          >
+            <ReelPhone
+              reel={reel}
+              label={`${project.client} reel`}
+              onOpen={() => onOpen(i)}
+              className="w-full"
+            />
+            <ReelLink href={reel.href} tone="light" />
+          </div>
         ))}
       </motion.div>
     );
@@ -94,7 +112,9 @@ function Panel({ project, index, total, progress, stackable }) {
       video: m.video ?? null,
       views: m.views,
       baked: m.baked,
-      title: m.alt,
+      title: m.title ?? m.alt,
+      href: m.href,
+      embed: m.embed,
     }));
   const scopeLed = project.headline.kind === "scope";
 
