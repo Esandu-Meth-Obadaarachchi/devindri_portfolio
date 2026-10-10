@@ -121,7 +121,7 @@ function Award() {
     title: `${award.level}, ${award.show}`,
   }));
   // Offsets give the strip a staggered rhythm on wide screens only.
-  const offsets = ["md:mt-0", "md:mt-16", "md:-mt-6"];
+  const offsets = ["lg:mt-0", "lg:mt-16", "lg:-mt-6"];
 
   return (
     <div className="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
@@ -143,7 +143,7 @@ function Award() {
       <Reveal delay={0.1} className="-mx-5 md:mx-0 lg:col-span-8">
         <ul className="u-no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 [scroll-padding-inline:1.25rem] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0">
           {award.photos.map((photo, i) => (
-            <li key={photo.src} className={`w-[62vw] shrink-0 snap-start sm:w-[40vw] md:w-auto ${offsets[i]}`}>
+            <li key={photo.src} className={`w-[46vw] shrink-0 snap-start sm:w-[34vw] lg:w-auto ${offsets[i]}`}>
               <button
                 type="button"
                 onClick={() => open(items, i)}

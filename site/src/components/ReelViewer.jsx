@@ -17,6 +17,7 @@ import {
 import { ReelViewerContext } from "../lib/reelViewer";
 import { lockScroll } from "../lib/smoothScroll";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import { Phone } from "./ui/Phone";
 import { LAYER } from "../lib/layers";
 
 const STILL_SECONDS = 6;
@@ -59,6 +60,19 @@ function Bar({ state, progress }) {
 
 /** Stories style viewer. Tap the right side for the next reel, the left for the
  *  previous one, hold anywhere to pause, swipe down or press Escape to close. */
+/** Desktop shows the story inside an actual phone. A handset is already one, so it
+ *  gets the full screen instead of a picture of a phone inside a phone. */
+function Frame({ framed, children }) {
+  if (!framed) {
+    return <div className="relative h-full w-full overflow-hidden bg-[#0f0b0a]">{children}</div>;
+  }
+  return (
+    <Phone glare={false} className="w-[min(42vh,26rem)]" screenClassName="bg-[#0f0b0a]">
+      {children}
+    </Phone>
+  );
+}
+
 function Viewer({ items, start, onClose }) {
   const reduce = useReducedMotion();
   const framed = useMediaQuery("(min-width: 640px)");
@@ -171,13 +185,7 @@ function Viewer({ items, start, onClose }) {
           if (info.offset.y > 110 || info.velocity.y > 600) onClose();
         }}
       >
-        <div
-          className={
-            framed
-              ? "relative aspect-[9/16] h-[min(86dvh,800px)] overflow-hidden bg-[#0f0b0a] ring-1 ring-paper/15"
-              : "relative h-full w-full overflow-hidden bg-[#0f0b0a]"
-          }
-        >
+        <Frame framed={framed}>
 
           <AnimatePresence initial={false} mode="popLayout">
             <motion.div
@@ -247,7 +255,7 @@ function Viewer({ items, start, onClose }) {
 
           <div
             className={`absolute inset-x-0 z-[4] px-3 ${
-              framed ? "top-3" : "top-[max(12px,env(safe-area-inset-top))]"
+              framed ? "top-[15cqw] px-[5cqw]" : "top-[max(12px,env(safe-area-inset-top))]"
             }`}
           >
             <div className="flex gap-1">
@@ -300,7 +308,7 @@ function Viewer({ items, start, onClose }) {
               </div>
             </div>
           </div>
-        </div>
+        </Frame>
       </motion.div>
 
       {framed ? (
@@ -309,7 +317,7 @@ function Viewer({ items, start, onClose }) {
             type="button"
             onClick={prev}
             disabled={index === 0}
-            className="absolute left-[max(16px,calc(50%-min(86dvh,800px)*0.23-96px))] top-1/2 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-200 hover:bg-paper hover:text-ink disabled:opacity-25"
+            className="absolute left-[max(16px,calc(50%-min(42vh,26rem)/2-5rem))] top-1/2 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-200 hover:bg-paper hover:text-ink disabled:opacity-25"
             aria-label="Previous reel"
           >
             <CaretLeftIcon size={22} weight="bold" />
@@ -317,7 +325,7 @@ function Viewer({ items, start, onClose }) {
           <button
             type="button"
             onClick={next}
-            className="absolute right-[max(16px,calc(50%-min(86dvh,800px)*0.23-96px))] top-1/2 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-200 hover:bg-paper hover:text-ink"
+            className="absolute right-[max(16px,calc(50%-min(42vh,26rem)/2-5rem))] top-1/2 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-200 hover:bg-paper hover:text-ink"
             aria-label="Next reel"
           >
             <CaretRightIcon size={22} weight="bold" />
