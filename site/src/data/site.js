@@ -51,6 +51,69 @@ export const capabilities = [
   },
 ];
 
+// Roles as they run on LinkedIn. Brand lists come from the accounts she actually
+// carried at each place, so the work below has somewhere to attach.
+export const experience = {
+  marketing: [
+    {
+      id: "zirateh",
+      company: "Zirateh",
+      location: "Colombo, Sri Lanka",
+      start: "Aug 2025",
+      end: "Present",
+      current: true,
+      roles: [{ title: "Content Specialist", type: "Full time" }],
+      note: "Strategy, scripting and shoot direction across the agency's automotive and fine jewellery accounts. The UFS campaign and its SLIM DIGIS Silver came out of this seat.",
+      brands: ["UFS Lanka", "Tata", "XPENG", "Ceylon Artisans"],
+    },
+    {
+      id: "freelance",
+      company: "Independent",
+      location: "Colombo, remote",
+      start: "Aug 2024",
+      end: "Present",
+      current: true,
+      roles: [{ title: "Social Media Strategist", type: "Freelance" }],
+      note: "Direct client work. Content, visuals and the digital strategy around them, built to drive growth and engagement.",
+      brands: ["Infinity Vacations"],
+    },
+    {
+      id: "growth-inc",
+      company: "Growth Inc.",
+      location: "Colombo, Sri Lanka",
+      start: "Jun 2023",
+      end: "Dec 2023",
+      current: false,
+      roles: [
+        { title: "Junior Digital Marketer", type: "Full time, hybrid", window: "Oct 2023 to Dec 2023" },
+        { title: "Digital Marketing Intern", type: "Internship", window: "Jun 2023 to Sep 2023" },
+      ],
+      note: "Where the groundwork went in. Content calendars, product launches and campaign execution for hospitality and food brands.",
+      brands: ["Tribe Yala", "Chocoholics"],
+    },
+  ],
+  teaching: [
+    {
+      id: "ric",
+      company: "Royal Institute Campus",
+      start: "Sep 2026",
+      end: "Present",
+      current: true,
+      roles: [{ title: "Visiting Lecturer", type: "Part time, on site" }],
+      note: "LSE designed undergraduate courses, including Digital Infrastructures for Business and Research Project in Digital Innovation.",
+    },
+    {
+      id: "tutor",
+      company: "Self employed",
+      start: "Dec 2024",
+      end: "Present",
+      current: true,
+      roles: [{ title: "Academic Tutor", type: "Hybrid" }],
+      note: "English, Business, Accounting and Economics, from middle school through to A Levels across the National, Cambridge and Edexcel curriculums.",
+    },
+  ],
+};
+
 export const caseStudy = {
   client: "UFS Lanka",
   agency: "Zirateh",

@@ -8,6 +8,7 @@ import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { Ticker } from "./components/Ticker";
 import { About } from "./components/About";
+import { Experience } from "./components/Experience";
 import { Capabilities } from "./components/Capabilities";
 import { Work } from "./components/Work";
 import { Ufs } from "./components/Ufs";
@@ -33,9 +34,10 @@ export default function App() {
           <main>
             <Hero />
             <Ticker />
+            <About />
+            <Experience />
             <Ufs />
             <Work />
-            <About />
             <Capabilities />
             <Contact />
           </main>

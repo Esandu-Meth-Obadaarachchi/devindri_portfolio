@@ -5,10 +5,12 @@ import { LAYER } from "../lib/layers";
 import { scrollToSection } from "../lib/smoothScroll";
 import { Button } from "./ui/Button";
 
+// Page order, so the nav reads the way the page scrolls.
 const links = [
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
   { id: "ufs", label: "UFS" },
   { id: "work", label: "Work" },
-  { id: "about", label: "About" },
   { id: "services", label: "Services" },
 ];
 
