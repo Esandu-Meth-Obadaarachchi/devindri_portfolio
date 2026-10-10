@@ -188,32 +188,45 @@ export function Ufs() {
           <span className="u-mono w-full text-paper/60 sm:w-auto sm:pl-2">{caseStudy.window}</span>
         </Reveal>
 
-        <div className="mt-8 grid gap-8 md:mt-10 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-7">
+        <div className="mt-8 grid gap-8 md:mt-10 lg:grid-cols-12 lg:items-center lg:gap-10">
+          <div className="lg:col-span-6">
             <h2
               aria-label={`${caseStudy.client}, ${caseStudy.title}`}
-              className="u-display flex gap-[0.04em] text-[30vw] leading-[0.78] [font-stretch:125%] [font-weight:900] sm:text-[22vw] lg:text-[calc(var(--shell)*0.15)]"
+              className="u-display flex gap-[0.04em] text-[30vw] leading-[0.78] [font-stretch:125%] [font-weight:900] sm:text-[22vw] lg:text-[calc(var(--shell)*0.145)]"
             >
               <Letter char="U" progress={progress} from={30} />
               <Letter char="F" progress={progress} from={55} />
               <Letter char="S" progress={progress} from={80} />
             </h2>
             <p className="u-mono mt-4 text-paper/70">
-              Lanka, {caseStudy.industry.toLowerCase()}, via {caseStudy.agency}
+              Lanka, {caseStudy.industry.toLowerCase()}, via{" "}
+              <span className="font-bold text-blush">{caseStudy.agency}</span>
             </p>
           </div>
 
-          <Reveal className="lg:col-span-5 lg:pb-3">
-            <p className="max-w-[46ch] text-base leading-relaxed text-paper/85 md:text-xl md:leading-snug">
+          {/* Centred against the wordmark, so the two halves read as one band. */}
+          <Reveal className="lg:col-span-6 lg:col-start-7">
+            <p className="max-w-[44ch] text-lg leading-snug text-paper/90 md:text-2xl">
               {caseStudy.summary}
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-8 border-t border-paper/20 pt-10 md:mt-16 md:grid-cols-4 md:gap-x-10">
+        {/* The view count is the whole argument, so it gets the room to say so. */}
+        <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden bg-paper/20 md:mt-16 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           {caseStudy.stats.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.08}>
-              <p className="u-display whitespace-nowrap text-[9.5vw] leading-none sm:text-5xl md:text-[calc(var(--shell)*0.042)]">
+            <Reveal
+              key={stat.label}
+              delay={i * 0.08}
+              className="flex flex-col justify-end bg-plum px-5 py-8 md:px-7 md:py-10"
+            >
+              <p
+                className={`u-display whitespace-nowrap leading-none ${
+                  i === 0
+                    ? "text-blush text-[calc(var(--shell)*0.125)] md:text-[calc(var(--shell)*0.082)]"
+                    : "text-paper text-[calc(var(--shell)*0.09)] md:text-[calc(var(--shell)*0.045)]"
+                }`}
+              >
                 <Counter
                   value={stat.value}
                   decimals={stat.decimals}
@@ -221,7 +234,12 @@ export function Ufs() {
                   suffix={stat.suffix}
                 />
               </p>
-              <p className="mt-3 text-sm text-paper/60">{stat.label}</p>
+              <p className="mt-4 text-sm font-semibold tracking-tight text-paper md:text-base">
+                {stat.label}
+              </p>
+              {stat.note ? (
+                <p className="mt-1.5 max-w-[22ch] text-xs leading-snug text-paper/55">{stat.note}</p>
+              ) : null}
             </Reveal>
           ))}
         </div>

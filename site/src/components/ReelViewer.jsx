@@ -158,8 +158,7 @@ function Viewer({ items, start, onClose }) {
       transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
     >
       <motion.div
-        className={framed ? "u-phone" : "h-[100dvh] w-full"}
-        style={framed ? { fontSize: "min(1.45vh, 13px)" } : undefined}
+        className={framed ? "" : "h-[100dvh] w-full"}
         initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(32px) scale(0.94)" }}
         animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
         exit={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(32px) scale(0.94)" }}
@@ -175,11 +174,10 @@ function Viewer({ items, start, onClose }) {
         <div
           className={
             framed
-              ? "u-phone-screen h-[min(86dvh,800px)]"
+              ? "relative aspect-[9/16] h-[min(86dvh,800px)] overflow-hidden bg-[#0f0b0a] ring-1 ring-paper/15"
               : "relative h-full w-full overflow-hidden bg-[#0f0b0a]"
           }
         >
-          {framed ? <span className="u-island" aria-hidden="true" /> : null}
 
           <AnimatePresence initial={false} mode="popLayout">
             <motion.div
@@ -249,7 +247,7 @@ function Viewer({ items, start, onClose }) {
 
           <div
             className={`absolute inset-x-0 z-[4] px-3 ${
-              framed ? "top-[3.4em]" : "top-[max(12px,env(safe-area-inset-top))]"
+              framed ? "top-3" : "top-[max(12px,env(safe-area-inset-top))]"
             }`}
           >
             <div className="flex gap-1">

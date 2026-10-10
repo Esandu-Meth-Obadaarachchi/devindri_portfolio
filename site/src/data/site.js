@@ -134,10 +134,10 @@ export const caseStudy = {
     ],
   },
   stats: [
-    { value: 37.1, suffix: "M+", decimals: 1, label: "organic views" },
-    { value: 105.4, suffix: "K", decimals: 1, label: "followers gained" },
-    { value: 127, suffix: "", decimals: 0, label: "vehicles sold" },
-    { value: 4, prefix: "1 to ", suffix: "", decimals: 0, label: "showrooms" },
+    { value: 37.1, suffix: "M+", decimals: 1, label: "organic views", note: "In nine months, zero ad spend" },
+    { value: 105.4, suffix: "K", decimals: 1, label: "followers gained", note: "Across all three platforms" },
+    { value: 127, suffix: "", decimals: 0, label: "vehicles sold", note: "Traced back to the content" },
+    { value: 4, prefix: "1 to ", suffix: "", decimals: 0, label: "showrooms", note: "Expansion driven by demand" },
   ],
   platforms: [
     { name: "Facebook", views: "28.1M", interactions: "506.3K", follows: "84.1K", share: 28.1 },

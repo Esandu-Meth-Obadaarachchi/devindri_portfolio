@@ -9,7 +9,7 @@ import { useDetachedProgress } from "../lib/useDetachedProgress";
 import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { useReelViewer } from "../lib/reelViewer";
-import { PhoneFrame } from "./ui/PhoneFrame";
+import { ReelCard } from "./ui/ReelCard";
 import { LAYER } from "../lib/layers";
 
 function Panel({ project, index, total, progress, stackable }) {
@@ -105,13 +105,14 @@ function Panel({ project, index, total, progress, stackable }) {
             {reels.length ? (
               <div className="flex items-end justify-center gap-4 lg:gap-6">
                 {reels.map((reel, i) => (
-                  <PhoneFrame
+                  <ReelCard
                     key={reel.id}
                     reel={reel}
+                    tone="dark"
                     label={`${project.client} reel`}
                     onOpen={() => open(reels, i)}
-                    className={`w-[42vw] max-w-[13.5rem] lg:w-[min(13.5rem,22vh)] ${
-                      i === 1 ? "translate-y-[-8%] rotate-[3deg]" : "-rotate-[2deg]"
+                    className={`aspect-[9/14] w-[42vw] max-w-[14rem] lg:w-[min(14rem,24vh)] ${
+                      i === 1 ? "translate-y-[-6%]" : ""
                     }`}
                   />
                 ))}
