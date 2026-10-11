@@ -8,6 +8,9 @@ let lenisInstance = null;
 export function useSmoothScroll(enabled = true) {
   useEffect(() => {
     if (!enabled) return undefined;
+    // Touch devices already have momentum scrolling tuned by the OS. Running Lenis
+    // on top of it costs a frame and makes a phone feel heavy, so it stays off.
+    if (window.matchMedia("(pointer: coarse)").matches) return undefined;
 
     const lenis = new Lenis({
       duration: 1.05,

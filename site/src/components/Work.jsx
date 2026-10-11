@@ -11,7 +11,7 @@ import { useDetachedProgress } from "../lib/useDetachedProgress";
 import { Counter } from "./ui/Counter";
 import { Reveal, RevealLines } from "./ui/Reveal";
 import { useReelViewer } from "../lib/reelViewer";
-import { ReelCard } from "./ui/ReelCard";
+import { ReelPhone } from "./ui/ReelPhone";
 import { LAYER } from "../lib/layers";
 
 // UFS has its own section above, so it stays out of the stack.
@@ -25,13 +25,12 @@ function Media({ project, reels, onOpen, parallax }) {
         style={parallax}
       >
         {reels.map((reel, i) => (
-          <ReelCard
+          <ReelPhone
             key={reel.id}
             reel={reel}
-            tone="dark"
             label={`${project.client} reel`}
             onOpen={() => onOpen(i)}
-            className={`aspect-[9/14] w-[42vw] max-w-[15.5rem] lg:w-[min(16rem,26vh)] ${
+            className={`w-[38vw] max-w-[12.5rem] lg:w-[min(13rem,22vh)] ${
               i === 1 ? "lg:translate-y-[-7%]" : ""
             }`}
           />
@@ -143,7 +142,7 @@ function Panel({ project, index, total, progress, stackable }) {
                   {project.headline.text}
                 </p>
               ) : (
-                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
                   <p className="u-display text-[calc(var(--shell)*0.13)] leading-none text-rose lg:text-[calc(var(--shell)*0.058)]">
                     <Counter
                       value={project.headline.value}
