@@ -26,6 +26,10 @@ const LABEL = {
 
 function resolve(target) {
   const el = target instanceof Element ? target : null;
+  // The viewer plays Facebook's own player in an iframe, and once the pointer is inside
+  // one the page stops hearing it, so a custom ring would freeze mid screen. The viewer
+  // gets the system cursor instead, and the ring is back as soon as it closes.
+  if (el?.closest('[role="dialog"], iframe')) return "hidden";
   const tagged = el?.closest("[data-cursor]");
   if (tagged) return tagged.getAttribute("data-cursor") || "idle";
   if (el?.closest("input, textarea, select")) return "hidden";
@@ -98,10 +102,14 @@ export function Cursor() {
 
   if (!enabled) return null;
 
-  const label = LABEL[state];
+  // Over a text field or an embedded player the native cursor does the job.
+  const gone = !visible || state === "hidden";
+  const label = gone ? undefined : LABEL[state];
   const open = state === "action";
-  const ringScale = !visible || label ? SCALE.hidden : (open ? SCALE.action : SCALE.idle) * (pressed ? 0.86 : 1);
-  const dotVisible = visible && !label && !open;
+  const ringScale =
+    gone || label ? SCALE.hidden : (open ? SCALE.action : SCALE.idle) * (pressed ? 0.86 : 1);
+  const dotVisible = !gone && !label && !open;
+
 
   return (
     <div

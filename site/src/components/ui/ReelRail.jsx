@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react";
 import { useReelViewer } from "../../lib/reelViewer";
 import { ReelPhone } from "./ReelPhone";
+import { ReelLink } from "./ReelLink";
 
 /** A row of phones. Touch gets native momentum and snap. A mouse can drag the row,
  *  and a drag never counts as a tap on the phone underneath it. */
@@ -64,13 +65,18 @@ export function ReelRail({ reels, label }) {
         onClickCapture={swallowClick}
       >
         {reels.map((reel, i) => (
-          <div key={reel.id} role="listitem" className="snap-start">
+          <div
+            key={reel.id}
+            role="listitem"
+            className="w-[52vw] max-w-[14rem] shrink-0 snap-start sm:w-[34vw] md:w-[12.5rem] lg:w-[13.5rem]"
+          >
             <ReelPhone
               reel={reel}
               label={reel.title}
               onOpen={() => open(reels, i)}
-              className="w-[52vw] max-w-[14rem] sm:w-[34vw] md:w-[12.5rem] lg:w-[13.5rem]"
+              className="w-full"
             />
+            <ReelLink href={reel.href} tone="dark" />
           </div>
         ))}
       </div>

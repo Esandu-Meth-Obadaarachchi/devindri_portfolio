@@ -145,6 +145,17 @@
   body[data-pointer="custom"] textarea {
     cursor: text;
   }
+
+  /* Inside the reel viewer the custom ring steps aside, so the system cursor returns. */
+  body[data-pointer="custom"] [role="dialog"],
+  body[data-pointer="custom"] [role="dialog"] iframe {
+    cursor: auto;
+  }
+
+  body[data-pointer="custom"] [role="dialog"] a,
+  body[data-pointer="custom"] [role="dialog"] button {
+    cursor: pointer;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

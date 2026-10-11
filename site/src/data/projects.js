@@ -1,6 +1,21 @@
 // Every figure here comes from Devindri's own portfolio deck and the UFS SLIM DIGIS
 // results deck. Nothing is estimated.
 
+const FB = "https://www.facebook.com/reel/";
+
+/** A reel with no video file. It plays from its Facebook post, so the poster is the
+ *  post's own thumbnail and the viewer embeds the post when it is opened. */
+const linked = (account, id, views, title) => ({
+  src: `/media/reels/${account}-${id}.webp`,
+  ratio: "9/14",
+  views,
+  alt: title,
+  title,
+  href: `${FB}${id}`,
+  embed: true,
+  video: null,
+});
+
 export const projects = [
   {
     id: "ufs",
@@ -41,15 +56,16 @@ export const projects = [
       "Lifestyle short form content",
       "Shoot coordination and execution",
     ],
-    headline: { value: 288, suffix: "K", label: "views on the launch reel" },
+    headline: { value: 290, suffix: "K", label: "views on the launch reel" },
     support: [
       { value: "80K", label: "views on the EV charging cut" },
       { value: "1 month", label: "campaign window" },
     ],
     media: [
-      { src: "/media/tata-ev-sinhala-288k.webp", views: "288K", baked: ["views"], alt: "Tata reel introducing the new EV in Sinhala", ratio: "9/14", video: null },
-      { src: "/media/tata-ev-charge-80k.webp", views: "80K", baked: ["views"], alt: "Tata reel showing an EV charging at 7am", ratio: "9/14", video: null },
-      { src: "/media/tata-i-told-you.webp", alt: "Tata lifestyle content at the showroom", ratio: "1/1" },
+      linked("tata", "1060878919598971", "290K", "2026 \u0d85\u0dbd\u0dd4\u0dad\u0dca\u0db8 EV \u0d91\u0d9a!"),
+      linked("tata", "2127668714463100", "80K", "GRWM: 135km in 15 minutes edition"),
+      linked("tata", "1280606977475440", "328K", "Stop worrying about rising maintenance costs"),
+      linked("tata", "1512768526594900", "258K", "First car \u0d91\u0d9a\u0d9a\u0dca \u0d9c\u0db1\u0dca\u0db1 \u0d9a\u0dbd\u0dd2\u0db1\u0dca \u0db8\u0dda video \u0d91\u0d9a \u0d85\u0db1\u0dd2\u0dc0\u0dcf\u0dbb\u0dca\u0dba\u0dba\u0dd9\u0db1\u0dca\u0db8 \u0db6\u0dbd\u0db1\u0dca\u0db1!"),
     ],
   },
   {
@@ -72,9 +88,9 @@ export const projects = [
       { value: "Custom", label: "design enquiries driven" },
     ],
     media: [
-      { src: "/media/ceylon-engagement-ring-15-7k.webp", views: "15.7K", baked: ["views"], alt: "Ceylon Artisans engagement ring reel", ratio: "9/14", video: null },
-      { src: "/media/ceylon-price-comparison-12k.webp", views: "12K", baked: ["views"], alt: "Ceylon Artisans reel on jewellery price differences", ratio: "9/14", video: null },
-      { src: "/media/ceylon-valentines-queen.webp", alt: "Ceylon Artisans Valentine campaign post", ratio: "1/1" },
+      linked("ceylon", "833598159702172", "3.3K", "When ordinary won\u2019t do, choose something as extraordinary as them"),
+      linked("ceylon", "906388172106313", "2.7K", "A ring as unique as nature itself?"),
+      linked("ceylon", "1853675898669744", "1.7K", "If you were getting engaged\u2026 which ring would you pick?"),
     ],
   },
   {

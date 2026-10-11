@@ -9,6 +9,7 @@ import {
 import {
   XIcon,
   EyeIcon,
+  ArrowSquareOutIcon,
   SpeakerHighIcon,
   SpeakerSlashIcon,
   CaretLeftIcon,
@@ -58,8 +59,6 @@ function Bar({ state, progress }) {
   );
 }
 
-/** Stories style viewer. Tap the right side for the next reel, the left for the
- *  previous one, hold anywhere to pause, swipe down or press Escape to close. */
 /** Desktop shows the story inside an actual phone. A handset is already one, so it
  *  gets the full screen instead of a picture of a phone inside a phone. */
 function Frame({ framed, children }) {
@@ -73,6 +72,54 @@ function Frame({ framed, children }) {
   );
 }
 
+/** A post that has no video file. It plays from Facebook's own player, so nothing is
+ *  loaded until this reel is the one on screen. The thumbnail sits underneath and
+ *  shows through until the player has painted, so there is never a black flash. */
+function Embed({ item }) {
+  const [ready, setReady] = useState(false);
+  const src =
+    "https://www.facebook.com/plugins/video.php?" +
+    new URLSearchParams({
+      href: item.href,
+      show_text: "false",
+      autoplay: "true",
+      width: "360",
+      t: "0",
+    }).toString();
+
+  return (
+    <>
+      <img
+        src={item.poster}
+        alt=""
+        aria-hidden="true"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+          ready ? "opacity-0" : "opacity-100"
+        }`}
+      />
+      {/* The player starts under the story header, so Facebook's own title bar and ours
+          never stack. It is 9:16, so it fills this area with no slab of black below. */}
+      <div
+        className={`absolute inset-x-0 bottom-0 top-[16%] bg-black transition-opacity duration-300 ${
+          ready ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <iframe
+          title={`${item.title}, on Facebook`}
+          src={src}
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowFullScreen
+          scrolling="no"
+          onLoad={() => setReady(true)}
+          className="h-full w-full border-0"
+        />
+      </div>
+    </>
+  );
+}
+
+/** Stories style viewer. Tap the right side for the next reel, the left for the
+ *  previous one, hold anywhere to pause, swipe down or press Escape to close. */
 function Viewer({ items, start, onClose }) {
   const reduce = useReducedMotion();
   const framed = useMediaQuery("(min-width: 640px)");
@@ -126,6 +173,10 @@ function Viewer({ items, start, onClose }) {
   useEffect(() => {
     progress.set(0);
     if (item.video) return undefined;
+    if (item.embed) {
+      progress.set(1);
+      return undefined;
+    }
     timer.current = animate(progress, 1, {
       duration: STILL_SECONDS,
       ease: "linear",
@@ -211,6 +262,8 @@ function Viewer({ items, start, onClose }) {
                   onEnded={next}
                   className="h-full w-full object-cover"
                 />
+              ) : item.embed ? (
+                <Embed item={item} />
               ) : (
                 <>
                   {wide ? (
@@ -236,18 +289,20 @@ function Viewer({ items, start, onClose }) {
           </AnimatePresence>
 
           <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-40 bg-gradient-to-b from-black/60 to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-40 bg-gradient-to-t from-black/60 to-transparent" />
+          {item.embed ? null : (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-40 bg-gradient-to-t from-black/60 to-transparent" />
+          )}
 
           <button
             type="button"
-            className="absolute inset-y-0 left-0 z-[3] w-1/3"
+            className={`absolute inset-y-0 left-0 z-[3] ${item.embed ? "w-[14%]" : "w-1/3"}`}
             aria-label="Previous reel"
             onClick={tap("prev")}
             {...pressHandlers}
           />
           <button
             type="button"
-            className="absolute inset-y-0 right-0 z-[3] w-2/3"
+            className={`absolute inset-y-0 right-0 z-[3] ${item.embed ? "w-[14%]" : "w-2/3"}`}
             aria-label="Next reel"
             onClick={tap("next")}
             {...pressHandlers}
@@ -268,12 +323,12 @@ function Viewer({ items, start, onClose }) {
               ))}
             </div>
             <div className="mt-3 flex items-center justify-between text-paper">
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-rose text-[11px] font-bold">
+              <div className="flex min-w-0 items-center gap-2.5">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rose text-[11px] font-bold">
                   DDS
                 </span>
-                <span className="text-sm font-semibold leading-tight">
-                  {item.title}
+                <span className="min-w-0 text-sm font-semibold leading-tight">
+                  <span className="block truncate">{item.title}</span>
                   {item.views ? (
                     <span className="flex items-center gap-1 text-xs font-medium text-paper/75">
                       <EyeIcon size={12} weight="bold" /> {item.views} views
@@ -281,7 +336,19 @@ function Viewer({ items, start, onClose }) {
                   ) : null}
                 </span>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex shrink-0 items-center gap-1">
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label="Watch this reel on Facebook"
+                    title="Watch on Facebook"
+                    className="flex h-11 w-11 items-center justify-center rounded-full"
+                  >
+                    <ArrowSquareOutIcon size={22} weight="bold" />
+                  </a>
+                ) : null}
                 {item.video ? (
                   <button
                     type="button"
