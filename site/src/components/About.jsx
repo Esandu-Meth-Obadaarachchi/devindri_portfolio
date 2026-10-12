@@ -25,12 +25,14 @@ export function About() {
         <div className="mt-10 grid gap-10 md:mt-12 md:grid-cols-12 md:items-stretch md:gap-12">
           <Reveal className="md:col-span-5">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-blush u-arch md:mx-0 md:aspect-auto md:h-full md:min-h-[26rem] md:max-w-none">
+              {/* The file is a photo cut from inside a framed graphic, so its top corners
+                  still carry a sliver of that frame. The zoom pushes it outside the arch. */}
               <img
-                src="/media/devindri-hero-awards.webp"
-                alt="Devindri De Silva with her SLIM DIGIS awards"
-                width={1125}
-                height={1500}
-                style={{ objectPosition: "50% 8%" }}
+                src="/media/devindri-about-portrait.webp"
+                alt="Devindri De Silva"
+                width={662}
+                height={728}
+                style={{ objectPosition: "50% 20%", transform: "scale(1.14)", transformOrigin: "50% 62%" }}
                 loading="lazy"
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
