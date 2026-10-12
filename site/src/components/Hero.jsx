@@ -71,10 +71,10 @@ export function Hero() {
                 transition={{ duration: 1.25, delay: 0.3, ease: [0.77, 0, 0.175, 1] }}
               >
                 <motion.img
-                  src="/media/devindri-studio-portrait.webp"
-                  alt="Devindri De Silva at her desk"
-                  width={1086}
-                  height={1448}
+                  src="/media/devindri-hero-awards.webp"
+                  alt="Devindri De Silva holding her two SLIM DIGIS awards"
+                  width={1125}
+                  height={1500}
                   className="aspect-[3/4] h-full w-auto max-w-none object-cover"
                   fetchPriority="high"
                   decoding="async"
