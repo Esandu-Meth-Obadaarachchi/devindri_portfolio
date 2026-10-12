@@ -65,13 +65,13 @@ export function Hero() {
               style={reduce ? { transform: "translateX(-50%)" } : { transform: portraitStyle }}
             >
               <motion.div
-                className="u-arch h-full overflow-hidden bg-blush"
+                className="u-arch relative h-full overflow-hidden bg-blush"
                 initial={reduce ? false : { clipPath: "inset(100% 0% 0% 0%)" }}
                 animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
                 transition={{ duration: 1.25, delay: 0.3, ease: [0.77, 0, 0.175, 1] }}
               >
                 <motion.img
-                  src="/media/devindri-hero-awards.webp"
+                  src="/media/devindri-awards-photo.webp"
                   alt="Devindri De Silva holding her two SLIM DIGIS awards"
                   width={1125}
                   height={1500}
@@ -81,6 +81,13 @@ export function Hero() {
                   initial={reduce ? false : { transform: "scale(1.25)" }}
                   animate={{ transform: "scale(1)" }}
                   transition={{ duration: 1.8, delay: 0.3, ease: EASE }}
+                />
+                {/* The photo's top is the near white sponsor panel, which dissolves into the
+                    page. A fine inner outline keeps the arch's shape. Inset, so the reveal
+                    clip never trims it. */}
+                <span
+                  aria-hidden="true"
+                  className="u-arch pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1.5px_rgba(23,17,15,0.18)]"
                 />
               </motion.div>
             </motion.div>

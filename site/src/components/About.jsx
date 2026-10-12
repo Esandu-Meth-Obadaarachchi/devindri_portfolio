@@ -26,14 +26,14 @@ export function About() {
           <Reveal className="md:col-span-5">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-blush u-arch md:mx-0 md:aspect-auto md:h-full md:min-h-[26rem] md:max-w-none">
               <img
-                src="/media/devindri-portrait-1.webp"
-                alt="Devindri De Silva"
-                width={1066}
-                height={850}
-                style={{ objectPosition: "50% 16%" }}
+                src="/media/devindri-hero-awards.webp"
+                alt="Devindri De Silva with her SLIM DIGIS awards"
+                width={1125}
+                height={1500}
+                style={{ objectPosition: "50% 8%" }}
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
           </Reveal>
