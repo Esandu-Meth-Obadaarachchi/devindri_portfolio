@@ -56,9 +56,8 @@ export const projects = [
       "Lifestyle short form content",
       "Shoot coordination and execution",
     ],
-    headline: { value: 290, suffix: "K", label: "views on the launch reel" },
+    headline: { value: 1.3, suffix: "M", label: "views across the campaign" },
     support: [
-      { value: "80K", label: "views on the EV charging cut" },
       { value: "1 month", label: "campaign window" },
     ],
     media: [
@@ -82,9 +81,8 @@ export const projects = [
       "Social media posts",
       "Monthly shoots",
     ],
-    headline: { value: 15.7, suffix: "K", label: "views on the engagement ring reel" },
+    headline: { value: 20, suffix: "K", label: "views across the campaign" },
     support: [
-      { value: "12K", label: "views on the price comparison reel" },
       { value: "Custom", label: "design enquiries driven" },
     ],
     media: [
@@ -107,9 +105,8 @@ export const projects = [
       "Regular analytics reporting",
       "Social media copy",
     ],
-    headline: { value: 73, suffix: "K", label: "views on the Bomburu Ella reel" },
+    headline: { value: 150, suffix: "K", label: "views across the campaign" },
     support: [
-      { value: "18.2K", label: "views on the Jaffna guide" },
       { value: "Monthly", label: "reporting cadence" },
     ],
     media: [

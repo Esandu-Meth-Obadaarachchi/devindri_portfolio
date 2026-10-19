@@ -139,7 +139,7 @@ export function Hero() {
                   className="text-rose transition-transform duration-200 ease-[var(--ease-out)] group-hover:translate-x-0.5 group-hover:translate-y-0.5"
                 />
               </button>
-              <Button as="button" type="button" onClick={() => scrollToSection("ufs")}>
+              <Button as="button" type="button" onClick={() => scrollToSection("work")}>
                 See the work
               </Button>
               <Button as="button" type="button" variant="outline" onClick={() => scrollToSection("contact")}>

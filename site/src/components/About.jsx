@@ -3,10 +3,10 @@ import { Counter } from "./ui/Counter";
 
 const traits = ["Strategic", "Creative", "Analytical", "Performance driven"];
 
-// Views are the sum of every account on this page, so the floor is honest.
-// UFS carries 37.1M of it, the rest comes from Tata, Ceylon Artisans and Infinity.
+// Views are the sum of the campaign totals on this page, rounded down so the floor
+// is honest: UFS 37.1M, Tata 1.3M, Infinity 150K, Ceylon Artisans 20K.
 const proof = [
-  { value: 37.5, decimals: 1, suffix: "M+", label: "views generated", lead: true },
+  { value: 38.5, decimals: 1, suffix: "M+", label: "views generated", lead: true },
   { value: 6, decimals: 0, suffix: "", label: "brands grown" },
   { value: 5, decimals: 0, suffix: "", label: "industries" },
   { value: 2, decimals: 0, suffix: "", label: "agencies" },
