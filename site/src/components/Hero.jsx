@@ -53,7 +53,7 @@ export function Hero() {
             <span className="hidden min-[380px]:inline">Content creator</span>
           </motion.p>
 
-          <h1 className="relative mt-3 flex min-h-0 flex-1 flex-col justify-between md:mt-4">
+          <h1 className="relative mt-3 flex min-h-0 flex-1 flex-col justify-center md:mt-4 md:justify-between">
             <motion.span
               className="relative z-0 block"
               style={still ? undefined : { transform: lineAStyle }}
@@ -65,9 +65,12 @@ export function Hero() {
               />
             </motion.span>
 
+            {/* Phones stack the hero: name, arch, name, with the arch sized to what the
+                screen has left so it always keeps its 3:4 shape. Desktop lays the arch
+                across the full height of the type instead. */}
             <motion.div
-              className="absolute left-1/2 top-[6%] z-10 h-[90%] max-w-[78vw] origin-bottom md:top-[9%] md:h-[89%]"
-              style={still ? { transform: "translateX(-50%)" } : { transform: portraitStyle }}
+              className="relative z-10 mx-auto -mb-[7vw] -mt-[4vw] aspect-[3/4] w-[min(74vw,calc((100svh-340px)*0.75))] min-w-[52vw] origin-bottom md:absolute md:left-1/2 md:top-[9%] md:m-0 md:h-[89%] md:w-auto md:min-w-0 md:max-w-[78vw]"
+              style={still ? (wide ? { transform: "translateX(-50%)" } : undefined) : { transform: portraitStyle }}
             >
               <motion.div
                 className="u-arch relative h-full overflow-hidden bg-blush"
@@ -80,7 +83,7 @@ export function Hero() {
                   alt="Devindri De Silva holding her two SLIM DIGIS awards"
                   width={1125}
                   height={1500}
-                  className="aspect-[3/4] h-full w-auto max-w-none object-cover"
+                  className="absolute inset-0 h-full w-full object-cover object-[50%_30%]"
                   fetchPriority="high"
                   decoding="async"
                   initial={reduce ? false : { transform: "scale(1.25)" }}

@@ -191,10 +191,10 @@ function Panel({ project, index, total, progress, stackable }) {
               </p>
 
               {project.support?.length ? (
-                <dl className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-6 border-t border-ink/12 pt-5">
+                <dl className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-4 border-t border-ink/12 pt-5 sm:gap-x-6">
                   {project.support.map((item) => (
                     <div key={item.label}>
-                      <dd className="u-display text-xl leading-none text-ink lg:text-2xl">
+                      <dd className="u-display text-lg leading-none text-ink min-[360px]:text-xl lg:text-2xl">
                         {item.value}
                       </dd>
                       <dt className="mt-2 max-w-[18ch] text-xs leading-snug text-ink-mute lg:text-sm">
