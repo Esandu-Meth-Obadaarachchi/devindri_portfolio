@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useMotionTemplate,
+  useMotionValue,
   useReducedMotion,
 } from "motion/react";
 import { ArrowDownRightIcon } from "@phosphor-icons/react";
@@ -24,19 +25,26 @@ export function Hero() {
   // The pull apart is a desktop move. On a phone the lines would slide past the edge
   // of the screen, so the hero just scrolls away like any other section.
   const wide = useMediaQuery("(min-width: 768px)");
-  const still = reduce || !wide;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const progress = useDetachedProgress(scrollYProgress);
 
-  const lineA = useTransform(progress, [0, 1], [0, -38]);
-  const lineB = useTransform(progress, [0, 1], [0, 38]);
-  const lift = useTransform(progress, [0, 1], [0, 18]);
-  const sink = useTransform(progress, [0, 1], [1, 0.82]);
-  const fade = useTransform(progress, [0, 0.45], [1, 0]);
+  // Motion binds a style at mount, so swapping style objects when the window crosses
+  // the breakpoint leaves the old transform stuck on. Every transform is scaled by
+  // this one value instead: 1 at desktop width, 0 on a phone, so the bound styles
+  // always describe the current width.
+  const desk = useMotionValue(wide ? 1 : 0);
+  useEffect(() => desk.set(wide ? 1 : 0), [wide, desk]);
 
-  const lineAStyle = useMotionTemplate`translate3d(${lineA}%, 0, 0)`;
-  const lineBStyle = useMotionTemplate`translate3d(${lineB}%, 0, 0)`;
-  const portraitStyle = useMotionTemplate`translate3d(-50%, ${lift}%, 0) scale(${sink})`;
+  const lineA = useTransform([progress, desk], ([p, d]) => p * -38 * d);
+  const lineB = useTransform([progress, desk], ([p, d]) => p * 38 * d);
+  const lift = useTransform([progress, desk], ([p, d]) => p * 18 * d);
+  const sink = useTransform([progress, desk], ([p, d]) => 1 - 0.18 * p * d);
+  const shift = useTransform(desk, (d) => -50 * d);
+  const fade = useTransform([progress, desk], ([p, d]) => 1 - Math.min(1, p / 0.45) * d);
+
+  const lineAStyle = useMotionTemplate`translate(${lineA}%, 0)`;
+  const lineBStyle = useMotionTemplate`translate(${lineB}%, 0)`;
+  const portraitStyle = useMotionTemplate`translate3d(${shift}%, ${lift}%, 0) scale(${sink})`;
 
   return (
     <section id="top" ref={ref} className="relative h-[100svh] md:h-[165svh]">
@@ -47,7 +55,7 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-            style={still ? undefined : { opacity: fade }}
+            style={reduce ? undefined : { opacity: fade }}
           >
             <span>Social media strategist</span>
             <span className="hidden min-[380px]:inline">Content creator</span>
@@ -56,7 +64,7 @@ export function Hero() {
           <h1 className="relative mt-3 flex min-h-0 flex-1 flex-col justify-center md:mt-4 md:justify-between">
             <motion.span
               className="relative z-0 block"
-              style={still ? undefined : { transform: lineAStyle }}
+              style={reduce ? undefined : { transform: lineAStyle }}
             >
               <KineticWord
                 text="Devindri"
@@ -69,8 +77,8 @@ export function Hero() {
                 screen has left so it always keeps its 3:4 shape. Desktop lays the arch
                 across the full height of the type instead. */}
             <motion.div
-              className="relative z-10 mx-auto -mb-[7vw] -mt-[4vw] aspect-[3/4] w-[min(74vw,calc((100svh-340px)*0.75))] min-w-[52vw] origin-bottom md:absolute md:left-1/2 md:top-[9%] md:m-0 md:h-[89%] md:w-auto md:min-w-0 md:max-w-[78vw]"
-              style={still ? (wide ? { transform: "translateX(-50%)" } : undefined) : { transform: portraitStyle }}
+              className={`relative z-10 mx-auto -mb-[7vw] -mt-[4vw] aspect-[3/4] w-[min(74vw,calc((100svh-340px)*0.75))] min-w-[52vw] origin-bottom md:absolute md:left-1/2 md:top-[9%] md:m-0 md:h-[89%] md:w-auto md:min-w-0 md:max-w-[78vw] ${reduce ? "md:-translate-x-1/2" : ""}`}
+              style={reduce ? undefined : { transform: portraitStyle }}
             >
               <motion.div
                 className="u-arch relative h-full overflow-hidden bg-blush"
@@ -102,7 +110,7 @@ export function Hero() {
 
             <motion.span
               className="relative z-20 block"
-              style={still ? undefined : { transform: lineBStyle }}
+              style={reduce ? undefined : { transform: lineBStyle }}
             >
               <KineticWord
                 text="De Silva"
@@ -120,7 +128,7 @@ export function Hero() {
           >
             <motion.p
               className="max-w-[44ch] text-[15px] leading-relaxed text-ink-soft md:col-span-5 md:text-lg"
-              style={still ? undefined : { opacity: fade }}
+              style={reduce ? undefined : { opacity: fade }}
             >
               I build content people choose to watch, then turn that attention into
               sales for the brand paying for it.
@@ -128,7 +136,7 @@ export function Hero() {
 
             <motion.div
               className="flex flex-wrap items-center gap-3 md:col-span-7 md:justify-end"
-              style={still ? undefined : { opacity: fade }}
+              style={reduce ? undefined : { opacity: fade }}
             >
               <button
                 type="button"
