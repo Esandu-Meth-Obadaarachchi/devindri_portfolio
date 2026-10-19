@@ -1,10 +1,10 @@
 import { experience } from "../data/site";
 import { Reveal, RevealLines } from "./ui/Reveal";
 
-function Brands({ brands, className = "" }) {
+function Brands({ brands, more = 0, className = "" }) {
   if (!brands?.length) return null;
   return (
-    <ul className={`flex flex-wrap gap-2 ${className}`}>
+    <ul className={`flex flex-wrap items-center gap-2 ${className}`}>
       {brands.map((brand) => (
         <li
           key={brand}
@@ -13,6 +13,15 @@ function Brands({ brands, className = "" }) {
           {brand}
         </li>
       ))}
+      {/* Accounts she has worked on but is not naming yet, counted rather than listed. */}
+      {more ? (
+        <li
+          className="rounded-full border border-dashed border-rose/40 bg-rose/5 px-3.5 py-1.5 text-xs font-semibold tracking-tight text-rose/80"
+          aria-label={`and ${more} more brands`}
+        >
+          + {more} more brands
+        </li>
+      ) : null}
     </ul>
   );
 }
@@ -31,7 +40,7 @@ function Entry({ item, delay }) {
         aria-hidden="true"
       />
 
-      <div className="grid gap-y-4 lg:grid-cols-12 lg:gap-10">
+      <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-3 lg:pl-8">
           <span
             className={`absolute left-0 top-[0.6rem] hidden h-2.5 w-2.5 -translate-x-[calc(50%+0.5px)] rounded-full lg:block ${
@@ -74,13 +83,13 @@ function Entry({ item, delay }) {
           ) : null}
 
           <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-ink-soft">{item.note}</p>
-          <Brands brands={item.brands} className="mt-6 lg:hidden" />
+          <Brands brands={item.brands} more={item.moreBrands} className="mt-6 lg:hidden" />
         </div>
 
         {item.brands?.length ? (
           <div className="hidden lg:col-span-3 lg:block">
             <p className="u-mono text-ink-mute">Accounts</p>
-            <Brands brands={item.brands} className="mt-4" />
+            <Brands brands={item.brands} more={item.moreBrands} className="mt-4" />
           </div>
         ) : null}
       </div>
@@ -106,7 +115,7 @@ export function Experience() {
 
         <Reveal className="mt-20 border-t border-ink/15 pt-12 md:mt-24">
           <h3 className="u-mono text-ink-mute">Alongside the marketing work</h3>
-          <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
+          <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             {experience.teaching.map((item) => (
               <div key={item.id}>
                 <p className="u-mono text-ink-mute">

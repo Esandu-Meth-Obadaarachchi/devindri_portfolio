@@ -61,7 +61,7 @@ function Award() {
   const offsets = ["lg:mt-0", "lg:mt-16", "lg:-mt-6"];
 
   return (
-    <div className="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
+    <div className="mt-20 grid grid-cols-1 gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
       <Reveal className="lg:col-span-4">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#f1eeec] via-[#b9b3b0] to-[#e6e2df] text-plum shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
@@ -77,10 +77,10 @@ function Award() {
         <p className="mt-6 max-w-[34ch] text-base leading-relaxed text-paper/75">{award.note}</p>
       </Reveal>
 
-      <Reveal delay={0.1} className="-mx-5 md:mx-0 lg:col-span-8">
-        <ul className="u-no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 [scroll-padding-inline:1.25rem] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0">
+      <Reveal delay={0.1} className="min-w-0 lg:col-span-8">
+        <ul className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-5">
           {award.photos.map((photo, i) => (
-            <li key={photo.src} className={`w-[46vw] shrink-0 snap-start sm:w-[34vw] lg:w-auto ${offsets[i]}`}>
+            <li key={photo.src} className={offsets[i]}>
               <button
                 type="button"
                 onClick={() => open(items, i)}
@@ -125,7 +125,7 @@ export function Ufs() {
           <span className="u-mono w-full text-paper/60 sm:w-auto sm:pl-2">{caseStudy.window}</span>
         </Reveal>
 
-        <div className="mt-8 grid gap-8 md:mt-10 lg:grid-cols-12 lg:items-center lg:gap-10">
+        <div className="mt-8 grid grid-cols-1 gap-8 md:mt-10 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-6">
             <h3
               aria-label={`${caseStudy.client}, ${caseStudy.title}`}
@@ -192,7 +192,7 @@ export function Ufs() {
       <div className="mt-20 md:mt-28">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
           <h3 className="u-display text-[10vw] leading-[0.9] md:text-[calc(var(--shell)*0.045)]">
-            <RevealLines lines={["10+ reels", "past a million."]} />
+            <RevealLines lines={["11 videos past", "a million views."]} />
           </h3>
           <Reveal delay={0.1} className="flex flex-wrap gap-x-6 gap-y-2">
             {caseStudy.viewRanges.map((range) => (

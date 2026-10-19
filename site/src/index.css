@@ -36,6 +36,9 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    /* A phone should never pan sideways. Clip, not hidden, and on html only: hidden on
+       body makes body a scroll container, which breaks every sticky section. */
+    overflow-x: clip;
   }
 
   body {

@@ -130,11 +130,11 @@ function Panel({ project, index, total, progress, stackable }) {
 
   return (
     <div
-      className={`relative min-h-[100dvh] ${stackable ? "lg:sticky lg:top-0" : ""}`}
+      className={`relative lg:min-h-[100dvh] ${stackable ? "lg:sticky lg:top-0" : ""}`}
       style={{ zIndex: LAYER.base + index }}
     >
       <motion.article
-        className={`relative flex min-h-[100dvh] flex-col justify-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] ${
+        className={`relative flex flex-col justify-center lg:min-h-[100dvh] border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] ${
           stackable ? "lg:h-[100dvh] lg:overflow-hidden" : ""
         }`}
         style={stacked}
@@ -148,7 +148,7 @@ function Panel({ project, index, total, progress, stackable }) {
         ) : null}
 
         <div
-          className={`mx-auto w-full max-w-[1400px] px-5 py-24 lg:px-10 lg:pt-16 ${
+          className={`mx-auto w-full max-w-[1400px] px-5 py-14 lg:px-10 lg:pt-16 ${
             stackable ? "lg:pb-32" : "lg:pb-16"
           }`}
         >
@@ -225,7 +225,7 @@ function Panel({ project, index, total, progress, stackable }) {
             stackable ? "lg:absolute lg:inset-x-0 lg:bottom-0" : ""
           }`}
         >
-          <div className="mx-auto grid max-w-[1400px] gap-6 px-5 py-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
+          <div className="mx-auto grid grid-cols-1 max-w-[1400px] gap-6 px-5 py-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
             <div className="lg:col-span-4">
               <p className="u-mono text-ink-mute">The brief</p>
               <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-ink-soft lg:text-base">

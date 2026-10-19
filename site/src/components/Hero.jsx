@@ -9,6 +9,7 @@ import {
 import { ArrowDownRightIcon } from "@phosphor-icons/react";
 import { scrollToSection } from "../lib/smoothScroll";
 import { useDetachedProgress } from "../lib/useDetachedProgress";
+import { useMediaQuery } from "../lib/useMediaQuery";
 import { Button } from "./ui/Button";
 import { KineticWord } from "./ui/KineticWord";
 
@@ -20,6 +21,10 @@ const EASE = [0.23, 1, 0.32, 1];
 export function Hero() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
+  // The pull apart is a desktop move. On a phone the lines would slide past the edge
+  // of the screen, so the hero just scrolls away like any other section.
+  const wide = useMediaQuery("(min-width: 768px)");
+  const still = reduce || !wide;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const progress = useDetachedProgress(scrollYProgress);
 
@@ -34,7 +39,7 @@ export function Hero() {
   const portraitStyle = useMotionTemplate`translate3d(-50%, ${lift}%, 0) scale(${sink})`;
 
   return (
-    <section id="top" ref={ref} className="relative h-[165svh]">
+    <section id="top" ref={ref} className="relative h-[100svh] md:h-[165svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-paper">
         <div className="mx-auto flex h-full max-w-[1400px] flex-col px-5 pb-6 pt-20 md:px-10 md:pb-10 md:pt-24">
           <motion.p
@@ -42,7 +47,7 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-            style={reduce ? undefined : { opacity: fade }}
+            style={still ? undefined : { opacity: fade }}
           >
             <span>Social media strategist</span>
             <span className="hidden min-[380px]:inline">Content creator</span>
@@ -51,18 +56,18 @@ export function Hero() {
           <h1 className="relative mt-3 flex min-h-0 flex-1 flex-col justify-between md:mt-4">
             <motion.span
               className="relative z-0 block"
-              style={reduce ? undefined : { transform: lineAStyle }}
+              style={still ? undefined : { transform: lineAStyle }}
             >
               <KineticWord
                 text="Devindri"
                 delay={0.15}
-                className="u-display text-left text-[16.4vw] leading-[0.8] text-ink md:text-[calc(var(--shell)*0.158)]"
+                className="u-display text-left text-[15.6vw] leading-[0.8] text-ink md:text-[calc(var(--shell)*0.158)]"
               />
             </motion.span>
 
             <motion.div
               className="absolute left-1/2 top-[6%] z-10 h-[90%] max-w-[78vw] origin-bottom md:top-[9%] md:h-[89%]"
-              style={reduce ? { transform: "translateX(-50%)" } : { transform: portraitStyle }}
+              style={still ? { transform: "translateX(-50%)" } : { transform: portraitStyle }}
             >
               <motion.div
                 className="u-arch relative h-full overflow-hidden bg-blush"
@@ -94,25 +99,25 @@ export function Hero() {
 
             <motion.span
               className="relative z-20 block"
-              style={reduce ? undefined : { transform: lineBStyle }}
+              style={still ? undefined : { transform: lineBStyle }}
             >
               <KineticWord
                 text="De Silva"
                 delay={0.32}
-                className="u-display text-right text-[16.4vw] leading-[0.8] text-rose md:text-[calc(var(--shell)*0.158)]"
+                className="u-display text-right text-[15.6vw] leading-[0.8] text-rose md:text-[calc(var(--shell)*0.158)]"
               />
             </motion.span>
           </h1>
 
           <motion.div
-            className="mt-5 grid items-end gap-5 md:mt-8 md:grid-cols-12 md:gap-8"
+            className="mt-5 grid grid-cols-1 items-end gap-5 md:mt-8 md:grid-cols-12 md:gap-8"
             initial={reduce ? false : { opacity: 0, transform: "translateY(16px)" }}
             animate={{ opacity: 1, transform: "translateY(0px)" }}
             transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
           >
             <motion.p
               className="max-w-[44ch] text-[15px] leading-relaxed text-ink-soft md:col-span-5 md:text-lg"
-              style={reduce ? undefined : { opacity: fade }}
+              style={still ? undefined : { opacity: fade }}
             >
               I build content people choose to watch, then turn that attention into
               sales for the brand paying for it.
@@ -120,7 +125,7 @@ export function Hero() {
 
             <motion.div
               className="flex flex-wrap items-center gap-3 md:col-span-7 md:justify-end"
-              style={reduce ? undefined : { opacity: fade }}
+              style={still ? undefined : { opacity: fade }}
             >
               <button
                 type="button"

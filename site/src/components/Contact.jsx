@@ -67,7 +67,7 @@ export function Contact() {
       className="relative border-t border-paper/15 bg-plum py-24 text-paper md:py-32"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid gap-16 md:grid-cols-12 md:gap-10">
+        <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-6">
             <h2 className="u-display text-[calc(var(--shell)*0.12)] leading-[0.88] md:text-[calc(var(--shell)*0.064)]">
               <RevealLines lines={["Let’s talk", "strategy."]} />

@@ -102,7 +102,7 @@ export function Capabilities() {
   return (
     <section id="services" className="relative bg-paper-2 py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid gap-8 md:grid-cols-12 md:items-end">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
           <h2 className="u-display text-[calc(var(--shell)*0.12)] leading-[0.88] md:col-span-7 md:text-[calc(var(--shell)*0.052)]">
             <RevealLines lines={["The whole", "package."]} />
           </h2>
@@ -114,7 +114,7 @@ export function Capabilities() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-3 md:mt-16 md:grid-cols-2 md:gap-4 lg:grid-cols-6">
+        <div className="mt-12 grid grid-cols-1 gap-3 md:mt-16 md:grid-cols-2 md:gap-4 lg:grid-cols-6">
           {capabilities.map((item, i) => (
             <Card
               key={item.id}

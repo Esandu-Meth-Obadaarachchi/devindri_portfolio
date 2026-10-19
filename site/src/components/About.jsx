@@ -22,7 +22,7 @@ export function About() {
 
         {/* Portrait on the left, words and proof stacked beside it, so the whole
             section lands inside one screen instead of running past the fold. */}
-        <div className="mt-10 grid gap-10 md:mt-12 md:grid-cols-12 md:items-stretch md:gap-12">
+        <div className="mt-10 grid grid-cols-1 gap-10 md:mt-12 md:grid-cols-12 md:items-stretch md:gap-12">
           <Reveal className="md:col-span-5">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-blush u-arch md:mx-0 md:aspect-auto md:h-full md:min-h-[26rem] md:max-w-none">
               {/* The file is a photo cut from inside a framed graphic, so its top corners

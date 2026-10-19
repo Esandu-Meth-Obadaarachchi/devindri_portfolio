@@ -82,6 +82,8 @@ export const experience = {
       roles: [{ title: "Social Media Strategist", type: "Freelance" }],
       note: "Direct client work. Content, visuals and the digital strategy around them, built to drive growth and engagement.",
       brands: ["Infinity Vacations"],
+      // Only Infinity is named for now. The rest are counted, not listed.
+      moreBrands: 4,
     },
     {
       id: "growth-inc",
@@ -159,8 +161,7 @@ export const caseStudy = {
     { value: 4, prefix: "1 to ", suffix: "", decimals: 0, label: "showrooms", note: "Expansion driven by demand" },
   ],
   viewRanges: [
-    // The rail below shows 11 reels at 1.2M or more, so 10+ is the honest floor.
-    { count: "10+", label: "1M+" },
+    { count: 11, label: "1M+" },
     { count: 8, label: "500K to 1M" },
     { count: 14, label: "250K to 500K" },
     { count: 36, label: "100K to 250K" },
