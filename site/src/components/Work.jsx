@@ -14,6 +14,7 @@ import { useReelViewer } from "../lib/reelViewer";
 import { ReelPhone } from "./ui/ReelPhone";
 import { ReelLink } from "./ui/ReelLink";
 import { LAYER } from "../lib/layers";
+import { Ufs } from "./Ufs";
 
 // UFS has its own section above, so it stays out of the stack.
 const projects = allProjects.filter((p) => !p.hasCaseStudy);
@@ -40,7 +41,7 @@ function Media({ project, reels, onOpen, parallax }) {
             key={reel.id}
             className={
               crowd
-                ? "w-[40vw] max-w-[11.5rem] shrink-0 snap-start lg:mx-auto lg:w-[min(100%,22vh)] lg:max-w-none"
+                ? "w-[40vw] max-w-[11.5rem] shrink-0 snap-start lg:mx-auto lg:w-[min(100%,24vh)] lg:max-w-none"
                 : `w-[38vw] max-w-[12.5rem] lg:w-[min(13rem,22vh)] ${i === 1 ? "lg:translate-y-[-7%]" : ""}`
             }
           >
@@ -117,14 +118,23 @@ function Panel({ project, index, total, progress, stackable }) {
       embed: m.embed,
     }));
   const scopeLed = project.headline.kind === "scope";
+  // Three or four phones in half the width shrink to slivers, so those panels give
+  // the media eight columns and the copy four.
+  const crowd = reels.length > 2;
+  const textCols = crowd
+    ? `lg:col-span-4 ${flip ? "lg:order-2 lg:col-start-9" : ""}`
+    : `lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : ""}`;
+  const mediaCols = crowd
+    ? `lg:col-span-8 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-5"}`
+    : `lg:col-span-6 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-7"}`;
 
   return (
     <div
-      className={`relative min-h-[100dvh] ${stackable ? "lg:sticky lg:top-0" : ""}`}
+      className={`relative lg:min-h-[100dvh] ${stackable ? "lg:sticky lg:top-0" : ""}`}
       style={{ zIndex: LAYER.base + index }}
     >
       <motion.article
-        className={`relative flex min-h-[100dvh] flex-col justify-center border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] ${
+        className={`relative flex flex-col justify-center lg:min-h-[100dvh] border-t border-ink/12 bg-paper shadow-[0_-24px_60px_rgba(23,17,15,0.07)] ${
           stackable ? "lg:h-[100dvh] lg:overflow-hidden" : ""
         }`}
         style={stacked}
@@ -138,7 +148,7 @@ function Panel({ project, index, total, progress, stackable }) {
         ) : null}
 
         <div
-          className={`mx-auto w-full max-w-[1400px] px-5 py-24 lg:px-10 lg:pt-16 ${
+          className={`mx-auto w-full max-w-[1400px] px-5 py-14 lg:px-10 lg:pt-16 ${
             stackable ? "lg:pb-32" : "lg:pb-16"
           }`}
         >
@@ -155,7 +165,7 @@ function Panel({ project, index, total, progress, stackable }) {
 
           <div className="mt-10 grid grid-cols-1 items-center gap-10 lg:mt-8 lg:grid-cols-12 lg:gap-10">
             <div
-              className={`lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : ""}`}
+              className={textCols}
             >
               {scopeLed ? (
                 <p className="max-w-[22ch] text-xl font-semibold leading-tight tracking-tight text-ink lg:text-3xl lg:leading-[1.15]">
@@ -181,10 +191,10 @@ function Panel({ project, index, total, progress, stackable }) {
               </p>
 
               {project.support?.length ? (
-                <dl className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-6 border-t border-ink/12 pt-5">
+                <dl className="mt-8 grid max-w-[30rem] grid-cols-2 gap-x-4 border-t border-ink/12 pt-5 sm:gap-x-6">
                   {project.support.map((item) => (
                     <div key={item.label}>
-                      <dd className="u-display text-xl leading-none text-ink lg:text-2xl">
+                      <dd className="u-display text-lg leading-none text-ink min-[360px]:text-xl lg:text-2xl">
                         {item.value}
                       </dd>
                       <dt className="mt-2 max-w-[18ch] text-xs leading-snug text-ink-mute lg:text-sm">
@@ -197,7 +207,7 @@ function Panel({ project, index, total, progress, stackable }) {
             </div>
 
             <div
-              className={`lg:col-span-6 ${flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-7"}`}
+              className={mediaCols}
             >
               <Media
                 project={project}
@@ -215,7 +225,7 @@ function Panel({ project, index, total, progress, stackable }) {
             stackable ? "lg:absolute lg:inset-x-0 lg:bottom-0" : ""
           }`}
         >
-          <div className="mx-auto grid max-w-[1400px] gap-6 px-5 py-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
+          <div className="mx-auto grid grid-cols-1 max-w-[1400px] gap-6 px-5 py-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
             <div className="lg:col-span-4">
               <p className="u-mono text-ink-mute">The brief</p>
               <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-ink-soft lg:text-base">
@@ -253,16 +263,18 @@ export function Work() {
   return (
     <section id="work" className="relative bg-paper">
       <div className="mx-auto max-w-[1400px] px-5 pt-24 lg:px-10 lg:pt-32">
-        <h2 className="u-display text-[calc(var(--shell)*0.085)] leading-[0.92] lg:text-[calc(var(--shell)*0.056)]">
-          <RevealLines lines={["More brands,", "more numbers."]} />
+        <h2 className="u-display text-[calc(var(--shell)*0.16)] leading-[0.86] lg:text-[calc(var(--shell)*0.11)]">
+          <RevealLines lines={["Clients."]} />
         </h2>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-[52ch] pb-16 text-base leading-relaxed text-ink-soft lg:pb-24 lg:text-lg">
-            Five more accounts across two agencies, from electric cars to fine
-            jewellery, glamping and chocolate.
+            Six brands, from a dealership launched on zero ad spend to electric cars,
+            fine jewellery, travel, glamping and chocolate.
           </p>
         </Reveal>
       </div>
+
+      <Ufs />
 
       <div ref={ref} className="relative">
         {projects.map((project, i) => (

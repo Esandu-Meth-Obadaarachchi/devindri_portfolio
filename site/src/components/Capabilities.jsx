@@ -34,8 +34,8 @@ function Card({ item, index, on, onToggle }) {
         } ${wide ? "lg:flex-row lg:items-center lg:gap-8" : ""}`}
       >
         <span className="flex items-start justify-between gap-4">
-          <span className="flex items-center gap-4">
-            <span className="relative h-14 w-14 shrink-0 overflow-hidden bg-paper-2 md:h-16 md:w-16">
+          <span className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <span className="relative h-11 w-11 shrink-0 overflow-hidden bg-paper-2 min-[360px]:h-14 min-[360px]:w-14 md:h-16 md:w-16">
               <img
                 src={item.image}
                 alt=""
@@ -45,7 +45,7 @@ function Card({ item, index, on, onToggle }) {
               />
             </span>
             <span
-              className={`u-display text-xl leading-[0.95] transition-colors duration-300 md:text-2xl ${
+              className={`u-display min-w-0 text-[1.05rem] leading-[0.95] transition-colors duration-300 min-[360px]:text-xl md:text-2xl ${
                 on ? "text-rose" : "text-ink"
               }`}
             >
@@ -102,7 +102,7 @@ export function Capabilities() {
   return (
     <section id="services" className="relative bg-paper-2 py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid gap-8 md:grid-cols-12 md:items-end">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
           <h2 className="u-display text-[calc(var(--shell)*0.12)] leading-[0.88] md:col-span-7 md:text-[calc(var(--shell)*0.052)]">
             <RevealLines lines={["The whole", "package."]} />
           </h2>
@@ -114,7 +114,7 @@ export function Capabilities() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-3 md:mt-16 md:grid-cols-2 md:gap-4 lg:grid-cols-6">
+        <div className="mt-12 grid grid-cols-1 gap-3 md:mt-16 md:grid-cols-2 md:gap-4 lg:grid-cols-6">
           {capabilities.map((item, i) => (
             <Card
               key={item.id}

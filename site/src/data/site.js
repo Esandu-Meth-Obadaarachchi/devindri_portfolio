@@ -82,6 +82,8 @@ export const experience = {
       roles: [{ title: "Social Media Strategist", type: "Freelance" }],
       note: "Direct client work. Content, visuals and the digital strategy around them, built to drive growth and engagement.",
       brands: ["Infinity Vacations"],
+      // Only Infinity is named for now. The rest are counted, not listed.
+      moreBrands: 4,
     },
     {
       id: "growth-inc",
@@ -158,26 +160,8 @@ export const caseStudy = {
     { value: 127, suffix: "", decimals: 0, label: "vehicles sold", note: "Traced back to the content" },
     { value: 4, prefix: "1 to ", suffix: "", decimals: 0, label: "showrooms", note: "Expansion driven by demand" },
   ],
-  platforms: [
-    { name: "Facebook", views: "28.1M", interactions: "506.3K", follows: "84.1K", share: 28.1 },
-    { name: "TikTok", views: "6.0M", interactions: "214.5K", follows: "15K", share: 6.0 },
-    { name: "Instagram", views: "3.03M", interactions: "125K", follows: "6.3K", share: 3.03 },
-  ],
-  sales: [
-    { month: "Nov", units: 2 },
-    { month: "Dec", units: 5 },
-    { month: "Jan", units: 16 },
-    { month: "Feb", units: 11 },
-    { month: "Mar", units: 17 },
-    { month: "Apr", units: 10 },
-    { month: "May", units: 15 },
-    { month: "Jun", units: 12 },
-    { month: "Jul", units: 22 },
-    { month: "Aug", units: 17 },
-  ],
   viewRanges: [
-    // The rail below shows 11 reels at 1.2M or more, so 10+ is the honest floor.
-    { count: "10+", label: "1M+" },
+    { count: 11, label: "1M+" },
     { count: 8, label: "500K to 1M" },
     { count: 14, label: "250K to 500K" },
     { count: 36, label: "100K to 250K" },

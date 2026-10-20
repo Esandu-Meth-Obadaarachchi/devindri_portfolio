@@ -3,10 +3,10 @@ import { Counter } from "./ui/Counter";
 
 const traits = ["Strategic", "Creative", "Analytical", "Performance driven"];
 
-// Views are the sum of every account on this page, so the floor is honest.
-// UFS carries 37.1M of it, the rest comes from Tata, Ceylon Artisans and Infinity.
+// Views are the sum of the campaign totals on this page, rounded down so the floor
+// is honest: UFS 37.1M, Tata 1.3M, Infinity 150K, Ceylon Artisans 20K.
 const proof = [
-  { value: 37.5, decimals: 1, suffix: "M+", label: "views generated", lead: true },
+  { value: 38.5, decimals: 1, suffix: "M+", label: "views generated", lead: true },
   { value: 6, decimals: 0, suffix: "", label: "brands grown" },
   { value: 5, decimals: 0, suffix: "", label: "industries" },
   { value: 2, decimals: 0, suffix: "", label: "agencies" },
@@ -22,18 +22,20 @@ export function About() {
 
         {/* Portrait on the left, words and proof stacked beside it, so the whole
             section lands inside one screen instead of running past the fold. */}
-        <div className="mt-10 grid gap-10 md:mt-12 md:grid-cols-12 md:items-stretch md:gap-12">
+        <div className="mt-10 grid grid-cols-1 gap-10 md:mt-12 md:grid-cols-12 md:items-stretch md:gap-12">
           <Reveal className="md:col-span-5">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden bg-blush u-arch md:mx-0 md:aspect-auto md:h-full md:min-h-[26rem] md:max-w-none">
+              {/* The file is a photo cut from inside a framed graphic, so its top corners
+                  still carry a sliver of that frame. The zoom pushes it outside the arch. */}
               <img
-                src="/media/devindri-portrait-1.webp"
+                src="/media/devindri-about-portrait.webp"
                 alt="Devindri De Silva"
-                width={1066}
-                height={850}
-                style={{ objectPosition: "50% 16%" }}
+                width={662}
+                height={728}
+                style={{ objectPosition: "50% 20%", transform: "scale(1.14)", transformOrigin: "50% 62%" }}
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
           </Reveal>

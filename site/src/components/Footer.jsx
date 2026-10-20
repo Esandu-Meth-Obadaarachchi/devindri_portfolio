@@ -56,8 +56,8 @@ export function Footer() {
         {/* The hero signature again: hover the name and it stretches toward you. */}
         <div className="mt-16 overflow-hidden border-t border-paper/15 pt-6" aria-hidden="true">
           <KineticWord
-            text="Devindri"
-            className="u-display text-center text-[16vw] leading-[0.8] text-paper/90 md:text-[calc(var(--shell)*0.15)]"
+            text="I’m Devindri"
+            className="u-display text-center text-[10.5vw] leading-[0.8] text-paper/90 md:text-[calc(var(--shell)*0.1)]"
           />
         </div>
       </div>

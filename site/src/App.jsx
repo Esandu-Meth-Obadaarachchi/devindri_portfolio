@@ -11,7 +11,6 @@ import { About } from "./components/About";
 import { Experience } from "./components/Experience";
 import { Capabilities } from "./components/Capabilities";
 import { Work } from "./components/Work";
-import { Ufs } from "./components/Ufs";
 import { ReelViewerProvider } from "./components/ReelViewer";
 import { ScopeContext, useScopeState } from "./lib/scope";
 import { Contact } from "./components/Contact";
@@ -39,7 +38,6 @@ export default function App() {
               <Ticker />
               <About />
               <Experience />
-              <Ufs />
               <Work />
               <Capabilities />
               <Contact />

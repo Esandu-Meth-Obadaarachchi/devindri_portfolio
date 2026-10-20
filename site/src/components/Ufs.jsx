@@ -14,8 +14,6 @@ import { ReelRail } from "./ui/ReelRail";
 import { TrophyIcon } from "@phosphor-icons/react";
 import { useReelViewer } from "../lib/reelViewer";
 
-const EASE = [0.23, 1, 0.32, 1];
-
 /** Each letter rides its own rate, so the word assembles as the section arrives. */
 function Letter({ char, progress, from }) {
   const reduce = useReducedMotion();
@@ -32,82 +30,21 @@ function Letter({ char, progress, from }) {
   );
 }
 
-function SalesChart() {
+/** LANKA as the logo sets it: lighter, tracked out, and spanning the width of UFS
+ *  above it. It fades in as the three letters land. */
+function Lanka({ progress }) {
   const reduce = useReducedMotion();
-  const peak = Math.max(...caseStudy.sales.map((m) => m.units));
-
+  const opacity = useTransform(progress, [0.55, 1], [0, 1]);
   return (
-    <div className="mt-10">
-      <div className="flex h-56 items-end gap-1.5 sm:gap-3 md:h-72">
-        {caseStudy.sales.map((month, i) => (
-          <div key={month.month} className="group flex h-full flex-1 flex-col justify-end gap-2">
-            <span className="text-center text-[11px] font-semibold tabular-nums text-paper/60 transition-colors duration-200 group-hover:text-paper sm:text-xs">
-              {month.units}
-            </span>
-            <motion.div
-              className={`w-full origin-bottom transition-colors duration-200 ${
-                month.units === peak ? "bg-blush" : "bg-paper/85 group-hover:bg-paper"
-              }`}
-              style={{ height: `${(month.units / peak) * 100}%` }}
-              initial={reduce ? false : { transform: "scaleY(0)" }}
-              whileInView={{ transform: "scaleY(1)" }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.9, delay: i * 0.05, ease: EASE }}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="mt-3 flex gap-1.5 border-t border-paper/25 pt-3 sm:gap-3">
-        {caseStudy.sales.map((month) => (
-          <span key={month.month} className="flex-1 text-center text-[10px] text-paper/60 sm:text-xs">
-            {month.month}
-          </span>
-        ))}
-      </div>
-      <p className="u-mono mt-5 text-paper/55">Vehicles sold per month</p>
-    </div>
-  );
-}
-
-function PlatformSplit() {
-  const reduce = useReducedMotion();
-  const total = caseStudy.platforms.reduce((sum, p) => sum + p.share, 0);
-  const tones = ["bg-paper", "bg-blush", "bg-rose"];
-
-  return (
-    <div className="mt-8">
-      <div className="flex h-3 w-full gap-1 overflow-hidden">
-        {caseStudy.platforms.map((platform, i) => (
-          <motion.span
-            key={platform.name}
-            className={`block h-full origin-left ${tones[i]}`}
-            style={{ width: `${(platform.share / total) * 100}%` }}
-            initial={reduce ? false : { transform: "scaleX(0)" }}
-            whileInView={{ transform: "scaleX(1)" }}
-            viewport={{ once: true, amount: 0.8 }}
-            transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease: EASE }}
-          />
-        ))}
-      </div>
-      <div className="mt-8 space-y-6">
-        {caseStudy.platforms.map((platform, i) => (
-          <Reveal key={platform.name} delay={i * 0.07}>
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="flex items-center gap-3 text-base font-semibold">
-                <span className={`h-2.5 w-2.5 ${tones[i]}`} aria-hidden="true" />
-                {platform.name}
-              </span>
-              <span className="u-display text-[9vw] leading-none sm:text-4xl md:text-[calc(var(--shell)*0.022)]">
-                {platform.views}
-              </span>
-            </div>
-            <p className="u-mono mt-2 text-paper/55">
-              {platform.interactions} interactions, {platform.follows} follows
-            </p>
-          </Reveal>
-        ))}
-      </div>
-    </div>
+    <motion.span
+      aria-hidden="true"
+      className="mt-[0.3em] flex w-full justify-between pl-[0.04em] font-display text-[8.6vw] leading-none font-normal uppercase text-paper/75 [font-stretch:118%] sm:text-[6.3vw] lg:text-[calc(var(--shell)*0.041)]"
+      style={reduce ? undefined : { opacity }}
+    >
+      {Array.from("LANKA").map((char, i) => (
+        <span key={`${char}-${i}`}>{char}</span>
+      ))}
+    </motion.span>
   );
 }
 
@@ -124,7 +61,7 @@ function Award() {
   const offsets = ["lg:mt-0", "lg:mt-16", "lg:-mt-6"];
 
   return (
-    <div className="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
+    <div className="mt-20 grid grid-cols-1 gap-10 md:mt-28 lg:grid-cols-12 lg:items-center lg:gap-10">
       <Reveal className="lg:col-span-4">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#f1eeec] via-[#b9b3b0] to-[#e6e2df] text-plum shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
@@ -140,10 +77,10 @@ function Award() {
         <p className="mt-6 max-w-[34ch] text-base leading-relaxed text-paper/75">{award.note}</p>
       </Reveal>
 
-      <Reveal delay={0.1} className="-mx-5 md:mx-0 lg:col-span-8">
-        <ul className="u-no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 [scroll-padding-inline:1.25rem] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0">
+      <Reveal delay={0.1} className="min-w-0 lg:col-span-8">
+        <ul className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-5">
           {award.photos.map((photo, i) => (
-            <li key={photo.src} className={`w-[46vw] shrink-0 snap-start sm:w-[34vw] lg:w-auto ${offsets[i]}`}>
+            <li key={photo.src} className={offsets[i]}>
               <button
                 type="button"
                 onClick={() => open(items, i)}
@@ -175,7 +112,7 @@ export function Ufs() {
   const progress = useDetachedProgress(scrollYProgress);
 
   return (
-    <section id="ufs" className="relative overflow-hidden bg-plum text-paper">
+    <div id="ufs" className="relative overflow-hidden bg-plum text-paper">
       <div ref={head} className="mx-auto max-w-[1400px] px-5 pt-20 md:px-10 md:pt-28">
         <Reveal className="flex flex-wrap items-center gap-x-3 gap-y-3">
           <span className="rounded-full bg-paper px-3.5 py-1.5 text-xs font-bold tracking-tight text-plum">
@@ -188,18 +125,21 @@ export function Ufs() {
           <span className="u-mono w-full text-paper/60 sm:w-auto sm:pl-2">{caseStudy.window}</span>
         </Reveal>
 
-        <div className="mt-8 grid gap-8 md:mt-10 lg:grid-cols-12 lg:items-center lg:gap-10">
+        <div className="mt-8 grid grid-cols-1 gap-8 md:mt-10 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-6">
-            <h2
+            <h3
               aria-label={`${caseStudy.client}, ${caseStudy.title}`}
-              className="u-display flex gap-[0.04em] text-[30vw] leading-[0.78] [font-stretch:125%] [font-weight:900] sm:text-[22vw] lg:text-[calc(var(--shell)*0.145)]"
+              className="inline-flex flex-col"
             >
-              <Letter char="U" progress={progress} from={30} />
-              <Letter char="F" progress={progress} from={55} />
-              <Letter char="S" progress={progress} from={80} />
-            </h2>
-            <p className="u-mono mt-4 text-paper/70">
-              Lanka, {caseStudy.industry.toLowerCase()}, via{" "}
+              <span className="u-display flex gap-[0.04em] text-[30vw] leading-[0.78] [font-stretch:125%] [font-weight:900] sm:text-[22vw] lg:text-[calc(var(--shell)*0.145)]">
+                <Letter char="U" progress={progress} from={30} />
+                <Letter char="F" progress={progress} from={55} />
+                <Letter char="S" progress={progress} from={80} />
+              </span>
+              <Lanka progress={progress} />
+            </h3>
+            <p className="u-mono mt-6 text-paper/70">
+              {caseStudy.industry}, via{" "}
               <span className="font-bold text-blush">{caseStudy.agency}</span>
             </p>
           </div>
@@ -252,7 +192,7 @@ export function Ufs() {
       <div className="mt-20 md:mt-28">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
           <h3 className="u-display text-[10vw] leading-[0.9] md:text-[calc(var(--shell)*0.045)]">
-            <RevealLines lines={["10+ reels", "past a million."]} />
+            <RevealLines lines={["11 videos past", "a million views."]} />
           </h3>
           <Reveal delay={0.1} className="flex flex-wrap gap-x-6 gap-y-2">
             {caseStudy.viewRanges.map((range) => (
@@ -263,28 +203,11 @@ export function Ufs() {
             ))}
           </Reveal>
         </div>
-        <Reveal delay={0.1} className="mt-10">
+        <Reveal delay={0.1} className="mt-10 pb-20 md:pb-28">
           <ReelRail reels={caseStudy.reels} label="UFS Lanka reels" />
         </Reveal>
       </div>
 
-      <div className="mx-auto max-w-[1400px] px-5 pb-20 md:px-10 md:pb-28">
-        <div className="mt-20 grid gap-16 md:mt-24 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-7">
-            <h3 className="u-display text-[8vw] leading-none md:text-[calc(var(--shell)*0.026)]">
-              One showroom became four
-            </h3>
-            <SalesChart />
-          </div>
-
-          <div className="md:col-span-4 md:col-start-9">
-            <h3 className="u-display text-[8vw] leading-none md:text-[calc(var(--shell)*0.026)]">
-              Where the views landed
-            </h3>
-            <PlatformSplit />
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
